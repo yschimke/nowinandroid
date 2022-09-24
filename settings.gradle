@@ -1,0 +1,32 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    plugins {
+        id 'com.android.application' version '7.3.0'
+        id 'com.android.library' version '7.3.0'
+        id 'com.android.test' version '7.3.0'
+        id 'org.jetbrains.kotlin.android' version '1.7.10'
+        id 'com.google.protobuf' version '0.8.19'
+        id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin' version '2.0.1'
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+rootProject.name = "wear-ads"
+include ':wear'
+include ':core:auth'
+include ':core:data'
+include ':core:compose'
+include ':feature:browse'
+include ':feature:login'
+include ':feature:tile'
