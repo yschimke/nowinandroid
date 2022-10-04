@@ -18,6 +18,10 @@ val localProperties = Properties().apply {
     }
 }
 
+secrets {
+    defaultPropertiesFileName = "defaultsecrets.properties"
+}
+
 android {
     namespace = "com.google.wear.ads"
 

@@ -24,7 +24,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
-    @ServerClientId serverClientId: String,
+    @ServerClientId serverClientId: String?,
     @ApplicationContext applicationContext: Context,
 ): TokenAccess {
     val googleApiClient =
@@ -34,7 +34,12 @@ class AuthRepository @Inject constructor(
                 .requestEmail()
                 .requestId()
                 .requestProfile()
-                .requestIdToken(serverClientId)
+                .apply {
+                    if (serverClientId != null) {
+                        requestIdToken(serverClientId)
+                    }
+                }
+
                 .build()
         )
 

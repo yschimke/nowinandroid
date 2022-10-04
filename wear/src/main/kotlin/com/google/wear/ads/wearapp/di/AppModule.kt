@@ -172,8 +172,14 @@ object AppModule {
         }
     }
 
+    @Suppress("KotlinConstantConditions")
     @Singleton
     @Provides
     @ServerClientId
-    fun serverClientId(): String = BuildConfig.serverClientId
+    fun serverClientId(): String? = BuildConfig.serverClientId.let {
+        if (it == "none" || it.isEmpty())
+            null
+        else
+            it
+    }
 }
