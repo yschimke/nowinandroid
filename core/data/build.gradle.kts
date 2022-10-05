@@ -57,4 +57,5 @@ dependencies {
     implementation(libs.androidx.core.core.ktx)
     implementation(libs.com.google.dagger.hilt.android)
     api("com.google.protobuf:protobuf-kotlin-lite:3.21.7")
+    implementation(libs.androidx.datastore)
 }

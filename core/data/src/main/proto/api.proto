@@ -8,3 +8,7 @@ message ActivityStatus {
   bool active = 1;
   string message = 2;
 }
+
+message Settings {
+  bool dummy = 1;
+}

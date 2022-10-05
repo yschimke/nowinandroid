@@ -11,6 +11,9 @@ com-google-dagger = "2.44"
 com-squareup-okhttp3 = "5.0.0-alpha.10"
 org-jetbrains-kotlin = "1.7.10"
 org-jetbrains-kotlinx = "1.6.4"
+androidx-datastore = "1.0.0"
+ksp = "1.7.10-1.0.6"
+room = "2.4.3"
 
 [libraries]
 androidx-activity-activity-compose = "androidx.activity:activity-compose:1.6.0"
@@ -23,6 +26,8 @@ androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4
 androidx-compose-ui-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
 androidx-compose-ui-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose-ui" }
 androidx-core-core-ktx = "androidx.core:core-ktx:1.9.0"
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-hilt-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidx-hilt" }
 androidx-hilt-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidx-hilt" }
 androidx-legacy-legacy-support-v4 = "androidx.legacy:legacy-support-v4:1.0.0"
@@ -52,7 +57,6 @@ com-google-guava = "com.google.guava:guava:31.1-jre"
 com-squareup-okhttp3-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "com-squareup-okhttp3" }
 com-squareup-okhttp3-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "com-squareup-okhttp3" }
 com-squareup-okhttp3-okhttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "com-squareup-okhttp3" }
-fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "com-google-android-horologist" }
 horologist-network-awareness = { module = "com.google.android.horologist:horologist-network-awareness", version.ref = "com-google-android-horologist" }
 horologist-compose-tools = { module = "com.google.android.horologist:horologist-compose-tools", version.ref = "com-google-android-horologist" }
@@ -67,9 +71,13 @@ org-jetbrains-kotlinx-kotlinx-coroutines-guava = { module = "org.jetbrains.kotli
 org-jetbrains-kotlinx-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "org-jetbrains-kotlinx" }
 startup-runtime = "androidx.startup:startup-runtime:1.2.0-alpha01"
 playservices-auth = "com.google.android.gms:play-services-auth:20.2.0"
+room-common = { module = "androidx.room:room-common", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
 [plugins]
 com-android-application = "com.android.application:7.3.0"
 dagger-hilt-android-plugin = "com.google.dagger.hilt.android:2.44"
 org-jetbrains-kotlin-android = "org.jetbrains.kotlin.android:1.7.10"
 org-jetbrains-kotlin-kapt = "org.jetbrains.kotlin.kapt:1.7.10"
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

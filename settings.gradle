@@ -26,6 +26,8 @@ rootProject.name = "wear-onestep"
 include ':wear'
 include ':core:auth'
 include ':core:data'
+include ':core:datastore'
+include ':core:room'
 include ':core:compose'
 include ':feature:browse'
 include ':feature:login'
