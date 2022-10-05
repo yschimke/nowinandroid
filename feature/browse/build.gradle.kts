@@ -10,7 +10,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        namespace = "com.google.wear.ads.wear.browse"
+        namespace = "com.google.wear.onestep.wear.browse"
         minSdk = 26
         targetSdk = 33
     }

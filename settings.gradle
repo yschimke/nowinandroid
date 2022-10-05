@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 }
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-rootProject.name = "wear-ads"
+rootProject.name = "wear-onestep"
 include ':wear'
 include ':core:auth'
 include ':core:data'

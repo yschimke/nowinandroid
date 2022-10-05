@@ -10,7 +10,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        namespace = "com.google.wear.ads.core.auth"
+        namespace = "com.google.wear.onestep.core.auth"
         minSdk = 26
         targetSdk = 33
     }

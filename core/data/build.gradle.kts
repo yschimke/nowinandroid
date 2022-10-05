@@ -16,7 +16,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        namespace = "com.google.wear.ads.api"
+        namespace = "com.google.wear.onestep.api"
         minSdk = 26
         targetSdk = 33
     }

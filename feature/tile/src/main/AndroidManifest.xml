@@ -6,7 +6,7 @@
     <application>
 
         <service
-            android:name="com.google.wear.ads.tile.AdsTileProviderService"
+            android:name="com.google.wear.onestep.tile.OneStepTileProviderService"
             android:label="@string/tile_name"
             android:icon="@drawable/ic_nordic"
             android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"

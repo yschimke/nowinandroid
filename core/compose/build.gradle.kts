@@ -10,7 +10,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        namespace = "com.google.wear.ads.core.compose"
+        namespace = "com.google.wear.onestep.core.compose"
         minSdk = 26
         targetSdk = 33
     }

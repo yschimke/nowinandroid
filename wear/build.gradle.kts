@@ -23,12 +23,12 @@ secrets {
 }
 
 android {
-    namespace = "com.google.wear.ads"
+    namespace = "com.google.wear.onestep"
 
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.google.wear.ads"
+        applicationId = "com.google.wear.onestep"
         minSdk = 26
         targetSdk = 33
         versionCode = 1
