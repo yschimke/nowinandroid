@@ -75,7 +75,7 @@ android {
         freeCompilerArgs += "-opt-in=com.google.android.horologist.compose.tools.ExperimentalHorologistComposeToolsApi"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.1"
+        kotlinCompilerExtensionVersion = "1.3.2"
     }
     packagingOptions {
         resources.excludes.add("META-INF/licenses/**")
@@ -103,8 +103,11 @@ dependencies {
     implementation(projects.core.auth)
     implementation(projects.core.datastore)
     implementation(projects.core.room)
+    implementation(projects.core.navigation)
+    implementation(projects.feature.complication)
 
     implementation(libs.startup.runtime)
+    implementation(libs.coil)
     implementation(libs.androidx.activity.activity.compose)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.material.material.icons.core)

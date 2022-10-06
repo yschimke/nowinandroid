@@ -16,15 +16,20 @@ package com.google.wear.onestep.wearapp.di
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
+import coil.ImageLoader
 import com.google.android.horologist.networks.data.DataRequestRepository
+import com.google.android.horologist.networks.data.RequestType
 import com.google.android.horologist.networks.db.DBDataRequestRepository
 import com.google.android.horologist.networks.db.NetworkUsageDao
 import com.google.android.horologist.networks.db.NetworkUsageDatabase
 import com.google.android.horologist.networks.highbandwidth.HighBandwidthNetworkMediator
-import com.google.android.horologist.networks.highbandwidth.SimpleHighBandwidthNetworkMediator
+import com.google.android.horologist.networks.highbandwidth.StandardHighBandwidthNetworkMediator
 import com.google.android.horologist.networks.logging.NetworkStatusLogger
 import com.google.android.horologist.networks.okhttp.AlwaysHttpsInterceptor
+import com.google.android.horologist.networks.okhttp.NetworkAwareCallFactory
 import com.google.android.horologist.networks.okhttp.NetworkSelectingCallFactory
+import com.google.android.horologist.networks.request.NetworkRequester
+import com.google.android.horologist.networks.request.NetworkRequesterImpl
 import com.google.android.horologist.networks.rules.NetworkingRules
 import com.google.android.horologist.networks.rules.NetworkingRulesEngine
 import com.google.android.horologist.networks.status.NetworkRepository
@@ -33,6 +38,8 @@ import com.google.wear.onestep.BuildConfig
 import com.google.wear.onestep.auth.AuthRepository
 import com.google.wear.onestep.auth.ServerClientId
 import com.google.wear.onestep.auth.TokenAccess
+import com.google.wear.onestep.navigation.IntentBuilder
+import com.google.wear.onestep.navigation.NavDeepLinkIntentBuilder
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -45,8 +52,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import okhttp3.Call
 import okhttp3.OkHttpClient
+import java.io.File
 import javax.inject.Provider
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.seconds
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -74,10 +83,11 @@ object AppModule {
     @Singleton
     @Provides
     fun highBandwidthRequester(
-        connectivityManager: ConnectivityManager,
-        networkRepository: NetworkRepository,
+        logger: NetworkStatusLogger,
+        coroutineScope: CoroutineScope,
+        networkRequester: NetworkRequester,
     ): HighBandwidthNetworkMediator =
-        SimpleHighBandwidthNetworkMediator(connectivityManager, networkRepository)
+        StandardHighBandwidthNetworkMediator(logger, networkRequester, coroutineScope, 5.seconds)
 
     @Singleton
     @Provides
@@ -172,6 +182,14 @@ object AppModule {
         }
     }
 
+    @Singleton
+    @Provides
+    fun intentBuilder(
+        @ApplicationContext application: Context,
+    ): IntentBuilder {
+        return NavDeepLinkIntentBuilder(application)
+    }
+
     @Suppress("KotlinConstantConditions")
     @Singleton
     @Provides
@@ -182,4 +200,28 @@ object AppModule {
         else
             it
     }
+
+    @Singleton
+    @Provides
+    fun imageLoader(
+        @ApplicationContext application: Context,
+        callFactory: Call.Factory
+    ): ImageLoader = ImageLoader.Builder(application)
+        .crossfade(false)
+        .respectCacheHeaders(false)
+        .callFactory {
+            NetworkAwareCallFactory(
+                callFactory,
+                defaultRequestType = RequestType.ImageRequest
+            )
+        }
+        .build()
+
+    @Singleton
+    @Provides
+    fun networkRequester(
+        connectivityManager: ConnectivityManager
+    ): NetworkRequester = NetworkRequesterImpl(
+        connectivityManager
+    )
 }
