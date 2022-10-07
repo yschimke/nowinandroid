@@ -48,4 +48,8 @@ dependencies {
     implementation(libs.androidx.complications.datasource.ktx)
     implementation(libs.horologist.tiles)
     implementation(libs.coil)
+    implementation(libs.androidx.compose.ui.ui.tooling)
+
+    debugImplementation(libs.androidx.complications.rendering)
+    debugImplementation(libs.androidx.compose.ui.ui.tooling.preview)
 }

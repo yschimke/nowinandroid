@@ -19,11 +19,17 @@ package com.google.wear.onestep.complication;
 import android.app.PendingIntent
 import android.content.Context
 import android.graphics.drawable.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.data.LongTextComplicationData
+import androidx.wear.watchface.complications.data.PlainComplicationText
+import androidx.wear.watchface.complications.data.RangedValueComplicationData
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
 import androidx.wear.watchface.complications.data.SmallImageComplicationData
 import androidx.wear.watchface.complications.data.SmallImageType
+import com.google.android.horologist.compose.tools.ComplicationRendererPreview
 import com.google.android.horologist.tiles.complication.TypedComplicationTemplate
 import com.google.wear.onestep.core.compose.R
 import com.google.wear.onestep.room.CompletedActivity
@@ -37,7 +43,10 @@ public class WeeklyGoalTemplate(
         val activities: List<CompletedActivity>,
         val goal: Double,
         val launchIntent: PendingIntent?
-    )
+    ) {
+        val value = activities.sumOf { it.distance }
+        val percent: String = "${(value / goal * 100f).toInt()}%"
+    }
 
     override fun previewData(): Data = Data(
         title = "OneStep",
@@ -48,15 +57,38 @@ public class WeeklyGoalTemplate(
 
     override fun supportedTypes(): List<ComplicationType> =
         listOf(
-            ComplicationType.SMALL_IMAGE,
+            ComplicationType.RANGED_VALUE,
             ComplicationType.SHORT_TEXT,
-            ComplicationType.LONG_TEXT
+            ComplicationType.SMALL_IMAGE
         )
+
+    override fun renderRangedValue(data: Data): RangedValueComplicationData? {
+
+        return RangedValueComplicationData.Builder(
+            data.value.toFloat(), 0f, data.goal.toFloat(), PlainComplicationText.Builder(
+                text = "Achieved ${data.percent}"
+            ).build()
+        )
+            .setText(
+                PlainComplicationText.Builder(
+                    text = data.percent
+                )
+                    .build()
+            )
+            .setTitle(
+                PlainComplicationText.Builder(
+                    text = data.title
+                )
+                    .build()
+            )
+            .setTapAction(data.launchIntent)
+            .build()
+    }
 
     override fun renderShortText(data: Data): ShortTextComplicationData =
         shortText(
             title = data.title,
-            text = data.title,
+            text = data.percent,
             icon = R.drawable.ic_nordic,
             launchIntent = data.launchIntent
         )
@@ -65,18 +97,28 @@ public class WeeklyGoalTemplate(
         return smallImage(
             icon = Icon.createWithResource(context, R.drawable.ic_nordic),
             type = SmallImageType.ICON,
-            name = data.title,
+            name = data.percent,
             launchIntent = data.launchIntent
         )
     }
+}
 
-    override fun renderLongText(data: Data): LongTextComplicationData {
-        return longText(
-            icon = Icon.createWithResource(context, R.drawable.ic_nordic),
-            type = SmallImageType.ICON,
-            title = data.title,
-            text = data.title,
-            launchIntent = data.launchIntent
+@Composable
+@Preview(
+    backgroundColor = 0xFF000000,
+    showBackground = true,
+)
+fun AppLaunchComplicationPreviewDefaultDataTemp() {
+    val context = LocalContext.current
+    val renderer = WeeklyGoalTemplate(context)
+
+    ComplicationRendererPreview(
+        complicationRenderer = renderer,
+        data = WeeklyGoalTemplate.Data(
+            title = "OneStep",
+            activities = listOf(CompletedActivity("1", "Running", 30.0)),
+            goal = 50.0,
+            launchIntent = null
         )
-    }
+    )
 }

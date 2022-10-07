@@ -1,0 +1,36 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="WeeklyGoalComplicationService" type="AndroidComplicationConfigurationType" factoryName="AndroidComplicationConfigurationFactory" show_console_on_std_err="false" show_console_on_std_out="false">
+    <module name="wear-onestep.wear" />
+    <option name="allowRunningInParallel" value="false" />
+    <option name="projectPathOnTarget" />
+    <option name="selectedOptions">
+      <list />
+    </option>
+    <LaunchOptions>
+      <option name="chosenSlots">
+        <list>
+          <ChosenSlot>
+            <option name="id" value="0" />
+            <option name="slotFocused" value="false" />
+            <option name="slotTypeFocused" value="false" />
+            <option name="type" value="SHORT_TEXT" />
+          </ChosenSlot>
+          <ChosenSlot>
+            <option name="id" value="1" />
+            <option name="slotFocused" value="false" />
+            <option name="slotTypeFocused" value="false" />
+            <option name="type" value="RANGED_VALUE" />
+          </ChosenSlot>
+        </list>
+      </option>
+      <option name="componentName" value="com.google.wear.onestep.complication.WeeklyGoalComplicationService" />
+    </LaunchOptions>
+    <DeployOptions>
+      <option name="pmInstallFlags" value="" />
+    </DeployOptions>
+    <method v="2">
+      <option name="Make" enabled="true" />
+      <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>
