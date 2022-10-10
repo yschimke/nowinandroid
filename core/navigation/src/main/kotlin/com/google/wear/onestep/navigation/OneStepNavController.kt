@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-package com.google.wear.onestep.wearapp.ui.navigation
+package com.google.wear.onestep.navigation
 
 import androidx.navigation.NavController
+import com.google.wear.onestep.navigation.Screens
 
 object OneStepNavController {
     fun NavController.navigateToHome() {
         navigate(Screens.Home.route)
+    }
+
+    fun NavController.navigateToActivity(activityId: String) {
+        navigate(Screens.Activity.routeFor(activityId))
     }
 }

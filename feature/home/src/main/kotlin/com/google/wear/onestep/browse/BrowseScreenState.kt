@@ -16,6 +16,6 @@
 
 package com.google.wear.onestep.browse
 
-import com.google.wear.onestep.proto.Api.ActivityStatus
+import com.google.wear.onestep.data.room.CompletedActivity
 
-data class BrowseScreenState(val activity: ActivityStatus = ActivityStatus.getDefaultInstance())
+data class BrowseScreenState(val activities: List<CompletedActivity> = listOf())

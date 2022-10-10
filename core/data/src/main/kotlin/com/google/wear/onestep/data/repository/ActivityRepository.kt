@@ -17,6 +17,7 @@
 package com.google.wear.onestep.data.repository
 
 import com.google.wear.onestep.data.room.CompletedActivity
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface ActivityRepository {
@@ -24,4 +25,8 @@ interface ActivityRepository {
         from: LocalDate,
         to: LocalDate
     ): List<CompletedActivity>
+
+    fun getActivityById(activityId: String): Flow<CompletedActivity?>
+    fun getRecentActivities(count: Int): Flow<List<CompletedActivity>>
+    suspend fun addActivity(completedActivity: CompletedActivity)
 }

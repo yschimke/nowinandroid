@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.google.wear.onestep.browse
+package com.google.wear.onestep.navigation
 
+sealed class Screens(val route: String) {
+    object Home : Screens("home")
 
-import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import javax.inject.Inject
+    object Login : Screens("login")
 
-@HiltViewModel
-class BrowseViewModel @Inject constructor(
-) : ViewModel() {
-    val state = MutableStateFlow(BrowseScreenState())
+    object Activity : Screens("activity/{activityId}") {
+        fun routeFor(activityId: String): String {
+            return "activity/${activityId}"
+        }
 
+        val activityIdArg: String = "activityId"
+    }
 }

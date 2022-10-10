@@ -29,10 +29,10 @@ import java.time.LocalDate
  * DAO for [CompletedActivity].
  */
 @Dao
-public interface ActivityDao {
+interface ActivityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public suspend fun upsert(mediaList: List<CompletedActivity>)
+    suspend fun upsert(mediaList: List<CompletedActivity>)
 
     @Query(
         value = """
@@ -47,4 +47,13 @@ public interface ActivityDao {
         from: Instant,
         to: Instant
     ): List<CompletedActivity>
+
+    @Query("SELECT * FROM CompletedActivity WHERE activityId = :activityId")
+    fun getById(activityId: String): Flow<CompletedActivity?>
+
+    @Query("SELECT * FROM CompletedActivity ORDER BY completed desc LIMIT :count")
+    fun getRecentActivities(count: Int): Flow<List<CompletedActivity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsertActivity(completedActivity: CompletedActivity)
 }

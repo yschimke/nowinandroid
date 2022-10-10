@@ -96,7 +96,8 @@ dependencies {
     kaptAndroidTest(libs.com.google.dagger.hilt.android.compiler)
 
     implementation(projects.feature.tile)
-    implementation(projects.feature.browse)
+    implementation(projects.feature.home)
+    implementation(projects.feature.activity)
     implementation(projects.feature.login)
     implementation(projects.core.compose)
     implementation(projects.core.data)

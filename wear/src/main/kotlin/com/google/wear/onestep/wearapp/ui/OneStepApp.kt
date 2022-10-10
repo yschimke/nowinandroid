@@ -33,9 +33,10 @@ import androidx.wear.compose.material.ScalingLazyListState
 import androidx.wear.compose.material.Text
 import com.google.android.horologist.compose.navscaffold.WearNavScaffold
 import com.google.android.horologist.compose.navscaffold.scalingLazyColumnComposable
+import com.google.wear.onestep.activity.ActivityScreen
 import com.google.wear.onestep.browse.BrowseScreen
 import com.google.wear.onestep.login.LoginScreen
-import com.google.wear.onestep.wearapp.ui.navigation.Screens
+import com.google.wear.onestep.navigation.Screens
 
 @Composable
 fun AdsApp(
@@ -81,9 +82,10 @@ fun AdsApp(
                 }
             )
         ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Activity")
-            }
+            ActivityScreen(
+                scrollState = it.scrollableState,
+                focusRequester = it.viewModel.focusRequester
+            )
         }
 
         scalingLazyColumnComposable(

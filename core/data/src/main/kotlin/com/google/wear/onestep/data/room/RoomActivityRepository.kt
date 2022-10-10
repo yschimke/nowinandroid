@@ -17,6 +17,7 @@
 package com.google.wear.onestep.data.room
 
 import com.google.wear.onestep.data.repository.ActivityRepository
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.ZoneId
 import javax.inject.Inject
@@ -31,5 +32,17 @@ class RoomActivityRepository @Inject constructor(
         val fromInstant = from.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()
         val toInstant = to.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()
         return activityDao.getCompletedActivitiesInPeriod(fromInstant, toInstant)
+    }
+
+    override fun getActivityById(activityId: String): Flow<CompletedActivity?> {
+        return activityDao.getById(activityId)
+    }
+
+    override fun getRecentActivities(count: Int): Flow<List<CompletedActivity>> {
+        return activityDao.getRecentActivities(count)
+    }
+
+    override suspend fun addActivity(completedActivity: CompletedActivity) {
+        return activityDao.upsertActivity(completedActivity)
     }
 }

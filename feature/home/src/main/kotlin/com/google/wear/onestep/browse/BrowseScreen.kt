@@ -20,21 +20,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListState
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.items
 import com.google.android.horologist.compose.layout.StateUtils.rememberStateWithLifecycle
 import com.google.android.horologist.compose.navscaffold.scrollableColumn
+import com.google.wear.onestep.data.room.CompletedActivity
+import com.google.wear.onestep.navigation.OneStepNavController.navigateToActivity
+import com.google.wear.onestep.navigation.Screens
 
-@Suppress("UNUSED_PARAMETER")
 @Composable
 fun BrowseScreen(
     scrollState: ScalingLazyListState,
     focusRequester: FocusRequester,
     modifier: Modifier = Modifier,
-    viewModel: BrowseViewModel,
+    viewModel: BrowseViewModel = hiltViewModel(),
     navController: NavController,
     onAuth: (() -> Unit)?
 ) {
@@ -45,7 +49,13 @@ fun BrowseScreen(
         focusRequester = focusRequester,
         modifier = modifier,
         state = state,
+        onClick = {
+            navController.navigateToActivity(it.activityId)
+        },
         onAuth = onAuth,
+        onAddActivity = {
+            viewModel.addActivity()
+        }
     )
 }
 
@@ -55,17 +65,31 @@ fun BrowseScreen(
     focusRequester: FocusRequester,
     state: BrowseScreenState,
     modifier: Modifier = Modifier,
-    onAuth: (() -> Unit)?
+    onClick: (CompletedActivity) -> Unit,
+    onAuth: (() -> Unit)?,
+    onAddActivity: () -> Unit
 ) {
     ScalingLazyColumn(
         modifier = modifier
             .scrollableColumn(focusRequester, scrollState),
         state = scrollState,
     ) {
+        items(state.activities) {
+            Chip(onClick = {
+                onClick(it)
+            }, label = {
+                Text(it.title)
+            })
+        }
+        item {
+            Chip(onClick = onAddActivity, label = {
+                Text("Add Activity")
+            })
+        }
         if (onAuth != null) {
             item {
                 Chip(onClick = onAuth, label = {
-                    Text("Auth")
+                    Text("Account")
                 })
             }
         }
