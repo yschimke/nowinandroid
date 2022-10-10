@@ -23,8 +23,11 @@ import com.google.android.horologist.tiles.complication.ComplicationTemplate
 import com.google.android.horologist.tiles.complication.DataComplicationService
 import com.google.wear.onestep.complication.WeeklyGoalTemplate
 import com.google.wear.onestep.complication.WeeklyGoalTemplate.Data
+import com.google.wear.onestep.data.repository.ActivityRepository
+import com.google.wear.onestep.data.repository.SettingsRepository
 import com.google.wear.onestep.navigation.IntentBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,12 +39,27 @@ class WeeklyGoalComplicationService() :
     @Inject
     lateinit var imageLoader: ImageLoader
 
+    @Inject
+    lateinit var activityRepository: ActivityRepository
+
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+
     override val renderer: WeeklyGoalTemplate = WeeklyGoalTemplate(this)
 
     override fun previewData(type: ComplicationType): Data = renderer.previewData()
 
     override suspend fun data(request: ComplicationRequest): Data {
-        // TODO query database
-        return renderer.previewData()
+        val today = LocalDate.now()
+        val activities =
+            activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
+        val weeklyGoal = settingsRepository.getWeeklyGoal()
+
+        return Data(
+            "Weekly Activities",
+            activities,
+            weeklyGoal,
+            intentBuilder.buildActivityListIntent()
+        )
     }
 }

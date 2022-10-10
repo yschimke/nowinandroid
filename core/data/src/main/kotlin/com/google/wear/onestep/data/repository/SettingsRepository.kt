@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-package com.google.wear.onestep.room
+package com.google.wear.onestep.data.repository
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
+import com.google.wear.onestep.data.room.CompletedActivity
+import java.time.LocalDate
 
-@Database(
-    entities = [
-        CompletedActivity::class,
-    ],
-    version = 1,
-    exportSchema = false
-)
-public abstract class ActivityDatabase : RoomDatabase() {
-
-    public abstract fun activityDao(): ActivityDao
+interface SettingsRepository {
+    suspend fun getWeeklyGoal(): Double
 }

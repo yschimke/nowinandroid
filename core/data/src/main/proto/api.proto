@@ -10,5 +10,5 @@ message ActivityStatus {
 }
 
 message Settings {
-  bool dummy = 1;
+  double weeklyGoal = 1;
 }

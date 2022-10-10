@@ -35,7 +35,6 @@ android {
 dependencies {
     implementation(projects.core.compose)
     implementation(projects.core.data)
-    implementation(projects.core.room)
     implementation(projects.core.navigation)
 
     kapt(libs.androidx.hilt.hilt.compiler)

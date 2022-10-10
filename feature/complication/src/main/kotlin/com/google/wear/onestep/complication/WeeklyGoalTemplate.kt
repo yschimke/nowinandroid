@@ -32,7 +32,8 @@ import androidx.wear.watchface.complications.data.SmallImageType
 import com.google.android.horologist.compose.tools.ComplicationRendererPreview
 import com.google.android.horologist.tiles.complication.TypedComplicationTemplate
 import com.google.wear.onestep.core.compose.R
-import com.google.wear.onestep.room.CompletedActivity
+import com.google.wear.onestep.data.room.CompletedActivity
+import java.time.Instant
 
 public class WeeklyGoalTemplate(
     context: Context
@@ -116,7 +117,7 @@ fun AppLaunchComplicationPreviewDefaultDataTemp() {
         complicationRenderer = renderer,
         data = WeeklyGoalTemplate.Data(
             title = "OneStep",
-            activities = listOf(CompletedActivity("1", "Running", 30.0)),
+            activities = listOf(CompletedActivity("1", "Running", 30.0, Instant.now())),
             goal = 50.0,
             launchIntent = null
         )

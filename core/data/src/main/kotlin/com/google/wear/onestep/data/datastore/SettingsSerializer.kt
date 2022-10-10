@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.wear.onestep.data
+package com.google.wear.onestep.data.datastore
 
 import android.content.Context
 import androidx.datastore.core.CorruptionException

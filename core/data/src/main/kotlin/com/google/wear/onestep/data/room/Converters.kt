@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package com.google.wear.onestep.room
+package com.google.wear.onestep.data.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.google.wear.onestep.room.CompletedActivity
+import androidx.room.TypeConverter
+import java.time.Instant
 
-/**
- * DAO for [CompletedActivity].
- */
-@Dao
-public interface ActivityDao {
+class Converters {
+    @TypeConverter
+    public fun fromTimestamp(value: Long?): Instant? {
+        return value?.let { Instant.ofEpochMilli(it) }
+    }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public suspend fun upsert(mediaList: List<CompletedActivity>)
-
-    @Query(
-        value = """
-        DELETE FROM CompletedActivity
-        WHERE activityId in (:activityIds)
-    """
-    )
-    public suspend fun delete(activityIds: List<String>)
+    @TypeConverter
+    public fun dateToTimestamp(date: Instant?): Long? {
+        return date?.toEpochMilli()
+    }
 }

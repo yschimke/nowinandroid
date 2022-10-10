@@ -10,6 +10,7 @@ plugins {
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.protobuf")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -57,5 +58,9 @@ dependencies {
     implementation(libs.androidx.core.core.ktx)
     implementation(libs.com.google.dagger.hilt.android)
     api("com.google.protobuf:protobuf-kotlin-lite:3.21.7")
+    implementation(libs.androidx.datastore)
+    implementation(libs.room.common)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
     implementation(libs.androidx.datastore)
 }

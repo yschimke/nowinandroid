@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package com.google.wear.onestep.data
+package com.google.wear.onestep.data.datastore
 
 import android.content.Context
-import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
-import com.google.protobuf.InvalidProtocolBufferException
 import com.google.wear.onestep.proto.Api.ActivityStatus
-import java.io.InputStream
-import java.io.OutputStream
+import com.google.wear.onestep.proto.Api.Settings
 
-object ActivityStatusSerializer : Serializer<ActivityStatus> {
-    override val defaultValue: ActivityStatus = ActivityStatus.getDefaultInstance()
+val Context.activityStatusStore: DataStore<ActivityStatus> by dataStore(
+    fileName = "activityStatus.pb",
+    serializer = ActivityStatusSerializer
+)
 
-    override suspend fun readFrom(input: InputStream): ActivityStatus {
-        try {
-            return ActivityStatus.parseFrom(input)
-        } catch (exception: InvalidProtocolBufferException) {
-            throw CorruptionException("Cannot read proto.", exception)
-        }
-    }
-
-    override suspend fun writeTo(t: ActivityStatus, output: OutputStream) = t.writeTo(output)
-}
+val Context.settingsStore: DataStore<Settings> by dataStore(
+    fileName = "settings.pb",
+    serializer = SettingsSerializer
+)

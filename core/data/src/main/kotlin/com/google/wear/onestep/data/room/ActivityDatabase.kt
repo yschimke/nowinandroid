@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package com.google.wear.onestep.room
+package com.google.wear.onestep.data.room
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
-@Entity
-public data class CompletedActivity(
-    @PrimaryKey val activityId: String,
-    @ColumnInfo val title: String,
-    @ColumnInfo val distance: Double,
+@Database(
+    entities = [
+        CompletedActivity::class,
+    ],
+    version = 1,
+    exportSchema = false
 )
+@TypeConverters(Converters::class)
+public abstract class ActivityDatabase : RoomDatabase() {
+
+    public abstract fun activityDao(): ActivityDao
+}

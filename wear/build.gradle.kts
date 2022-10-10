@@ -101,8 +101,6 @@ dependencies {
     implementation(projects.core.compose)
     implementation(projects.core.data)
     implementation(projects.core.auth)
-    implementation(projects.core.datastore)
-    implementation(projects.core.room)
     implementation(projects.core.navigation)
     implementation(projects.feature.complication)
 

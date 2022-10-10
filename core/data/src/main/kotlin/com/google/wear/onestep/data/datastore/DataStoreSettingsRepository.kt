@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package com.google.wear.onestep.datastore
+package com.google.wear.onestep.data.datastore
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
-import com.google.wear.onestep.data.ActivityStatusSerializer
-import com.google.wear.onestep.data.SettingsSerializer
-import com.google.wear.onestep.proto.Api.ActivityStatus
-import com.google.wear.onestep.proto.Api.Settings
+import com.google.wear.onestep.data.repository.ActivityRepository
+import com.google.wear.onestep.data.repository.SettingsRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.first
+import java.time.LocalDate
+import java.time.ZoneId
+import javax.inject.Inject
 
-val Context.activityStatusStore: DataStore<ActivityStatus> by dataStore(
-    fileName = "activityStatus.pb",
-    serializer = ActivityStatusSerializer
-)
+class DataStoreSettingsRepository @Inject constructor(
+    private @ApplicationContext val application: Context
+) : SettingsRepository {
+    val dataStore = application.settingsStore
 
-val Context.settingsStore: DataStore<Settings> by dataStore(
-    fileName = "settings.pb",
-    serializer = SettingsSerializer
-)
+    override suspend fun getWeeklyGoal(): Double {
+        return dataStore.data.first().weeklyGoal
+    }
+}
