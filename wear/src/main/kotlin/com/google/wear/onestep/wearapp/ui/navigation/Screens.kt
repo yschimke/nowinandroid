@@ -20,4 +20,6 @@ sealed class Screens(val route: String) {
     object Home : Screens("home")
 
     object Login : Screens("login")
+
+    object Activity : Screens("activity/{activityId}")
 }

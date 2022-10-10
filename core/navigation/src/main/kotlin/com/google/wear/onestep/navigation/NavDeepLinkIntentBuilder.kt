@@ -20,14 +20,15 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.TaskStackBuilder
+import androidx.core.net.toUri
 
 public class NavDeepLinkIntentBuilder(
     private val application: Context,
 ) : IntentBuilder {
     override fun buildActivityListIntent(): PendingIntent {
-        // TODO add proper navigation
         val taskDetailIntent = Intent(
-            Intent.ACTION_MAIN,
+            Intent.ACTION_VIEW,
+            "onestep://onestep/home".toUri()
         )
 
         return TaskStackBuilder.create(application).run {
@@ -37,9 +38,9 @@ public class NavDeepLinkIntentBuilder(
     }
 
     override fun buildActivityIntent(activityId: String): PendingIntent {
-        // TODO add proper navigation
         val taskDetailIntent = Intent(
-            Intent.ACTION_MAIN,
+            Intent.ACTION_VIEW,
+            "onestep://onestep/activity/$activityId".toUri()
         )
 
         return TaskStackBuilder.create(application).run {

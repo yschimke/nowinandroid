@@ -16,6 +16,7 @@ package com.google.wear.onestep.wearapp.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.wear.onestep.BuildConfig
 import com.google.wear.onestep.auth.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -25,8 +26,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppViewModel @Inject constructor(
-    val authRepository: AuthRepository
+    private val authRepository: AuthRepository
 ) : ViewModel() {
+    fun startLoginFlow(loginFlow: () -> Unit) {
+        if (isLoginEnabled() && authRepository.state.value == null) {
+            loginFlow()
+        }
+    }
 
     val state = authRepository.state.map {
         UiState(it)
@@ -35,6 +41,9 @@ class AppViewModel @Inject constructor(
         started = SharingStarted.Eagerly,
         initialValue = UiState()
     )
+
+    @Suppress("SENSELESS_COMPARISON")
+    fun isLoginEnabled(): Boolean = BuildConfig.serverClientId != null
 
     data class UiState(
         val account: GoogleSignInAccount? = null

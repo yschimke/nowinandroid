@@ -15,21 +15,27 @@
 
 package com.google.wear.onestep.wearapp.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import androidx.wear.compose.material.ScalingLazyListState
+import androidx.wear.compose.material.Text
 import com.google.android.horologist.compose.navscaffold.WearNavScaffold
 import com.google.android.horologist.compose.navscaffold.scalingLazyColumnComposable
-import com.google.wear.onestep.wearapp.ui.navigation.Screens
 import com.google.wear.onestep.browse.BrowseScreen
 import com.google.wear.onestep.login.LoginScreen
+import com.google.wear.onestep.wearapp.ui.navigation.Screens
 
 @Composable
 fun AdsApp(
@@ -44,7 +50,12 @@ fun AdsApp(
     ) {
         scalingLazyColumnComposable(
             route = Screens.Home.route,
-            scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) }
+            scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) },
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = "onestep://onestep/home"
+                }
+            )
         ) {
             BrowseScreen(
                 modifier = Modifier.fillMaxSize(),
@@ -54,6 +65,25 @@ fun AdsApp(
                 navController = navController,
                 onAuth = { navController.navigate(Screens.Login.route) }
             )
+        }
+
+        scalingLazyColumnComposable(
+            route = Screens.Activity.route,
+            scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) },
+            arguments = listOf(
+                navArgument("activityId") {
+                    type = NavType.StringType
+                }
+            ),
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = "onestep://onestep/activity/{activityId}"
+                }
+            )
+        ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("Activity")
+            }
         }
 
         scalingLazyColumnComposable(
@@ -71,7 +101,7 @@ fun AdsApp(
     }
 
     LaunchedEffect(appState.account) {
-        if (appState.account == null) {
+        viewModel.startLoginFlow {
             navController.navigate(Screens.Login.route)
         }
     }
