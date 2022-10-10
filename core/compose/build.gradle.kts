@@ -52,4 +52,8 @@ dependencies {
     implementation(libs.androidx.metrics.performance)
     implementation(libs.horologist.compose.tools)
     implementation(libs.com.google.dagger.hilt.android)
+
+    debugImplementation(libs.horologist.compose.tools)
+    debugImplementation(libs.androidx.complications.rendering)
+    debugImplementation(libs.androidx.compose.ui.ui.tooling.preview)
 }

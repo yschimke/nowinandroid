@@ -14,57 +14,57 @@
  * limitations under the License.
  */
 
-package com.google.android.horologist.compose.tools
+package com.google.android.horologist.compose.previews
 
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 
 @Preview(
-    device = Devices.WEAR_OS_LARGE_ROUND,
+    device = Devices.WEAR_OS_SMALL_ROUND,
     showSystemUi = true,
     backgroundColor = 0xff000000,
     showBackground = true,
-    group = "Devices - Large Round"
+    group = "Fonts - Small",
+    fontScale = 0.94f
 )
 @Preview(
     device = Devices.WEAR_OS_SMALL_ROUND,
     showSystemUi = true,
     backgroundColor = 0xff000000,
     showBackground = true,
-    group = "Devices - Small Round"
+    group = "Fonts - Normal",
+    fontScale = 1f
 )
-@Preview(
-    device = Devices.WEAR_OS_SQUARE,
-    showSystemUi = true,
-    backgroundColor = 0xff000000,
-    showBackground = true,
-    group = "Devices - Square"
-)
-public annotation class WearPreviewDevices
-
 @Preview(
     device = Devices.WEAR_OS_SMALL_ROUND,
     showSystemUi = true,
     backgroundColor = 0xff000000,
     showBackground = true,
-    group = "Devices - Small Round"
+    group = "Fonts - Medium",
+    fontScale = 1.06f
 )
-public annotation class WearSmallRoundDevicePreview
-
 @Preview(
-    device = Devices.WEAR_OS_LARGE_ROUND,
+    device = Devices.WEAR_OS_SMALL_ROUND,
     showSystemUi = true,
     backgroundColor = 0xff000000,
     showBackground = true,
-    group = "Devices - Large Round"
+    group = "Fonts - Large",
+    fontScale = 1.12f
 )
-public annotation class WearLargeRoundDevicePreview
-
 @Preview(
-    device = Devices.WEAR_OS_SQUARE,
+    device = Devices.WEAR_OS_SMALL_ROUND,
     showSystemUi = true,
     backgroundColor = 0xff000000,
     showBackground = true,
-    group = "Devices - Square"
+    group = "Fonts - Larger",
+    fontScale = 1.18f
 )
-public annotation class WearSquareDevicePreview
+@Preview(
+    device = Devices.WEAR_OS_SMALL_ROUND,
+    showSystemUi = true,
+    backgroundColor = 0xff000000,
+    showBackground = true,
+    group = "Fonts - Largest",
+    fontScale = 1.24f
+)
+public annotation class WearPreviewFontSizes

@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation(projects.core.compose)
+    implementation(projects.core.data)
 
     kapt(libs.androidx.hilt.hilt.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
@@ -45,4 +46,7 @@ dependencies {
     implementation(libs.com.google.dagger.hilt.android)
     implementation(libs.horologist.tiles)
     implementation(libs.androidx.wear.tiles.material)
+
+    debugImplementation(libs.horologist.compose.tools)
+    debugImplementation(libs.androidx.compose.ui.ui.tooling.preview)
 }

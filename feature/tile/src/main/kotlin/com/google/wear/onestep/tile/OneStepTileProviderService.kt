@@ -16,22 +16,25 @@
 
 package com.google.wear.onestep.tile
 
-import android.util.Log
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.ResourceBuilders
 import androidx.wear.tiles.TileBuilders.Tile
 import com.google.android.horologist.tiles.SuspendingTileService
+import com.google.wear.onestep.data.repository.ActivityRepository
+import com.google.wear.onestep.data.repository.SettingsRepository
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class OneStepTileProviderService : SuspendingTileService() {
-    private lateinit var renderer: OneStepTileRenderer
+    private var renderer = OneStepTileRenderer(this)
 
-    override fun onCreate() {
-        super.onCreate()
+    @Inject
+    lateinit var activityRepository: ActivityRepository
 
-        renderer = OneStepTileRenderer(this)
-    }
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
 
     override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources {
         return renderer.produceRequestedResources(
@@ -41,8 +44,15 @@ class OneStepTileProviderService : SuspendingTileService() {
     }
 
     override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): Tile {
-        Log.i("WhereAmI", "tileRequest $requestParams")
+        val today = LocalDate.now()
+        val activities =
+            activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
 
-        return renderer.renderTimeline(Any(), requestParams)
+        return renderer.renderTimeline(
+            OneStepTileRenderer.Data(
+            activities.map {
+                OneStepTileRenderer.Activity(it.activityId, it.title)
+            }
+        ), requestParams)
     }
 }
