@@ -18,6 +18,7 @@ package com.google.wear.onestep.browse
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,11 +28,14 @@ import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListState
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.items
+import androidx.wear.compose.material.rememberScalingLazyListState
 import com.google.android.horologist.compose.layout.StateUtils.rememberStateWithLifecycle
 import com.google.android.horologist.compose.navscaffold.scrollableColumn
+import com.google.android.horologist.compose.previews.WearPreviewDevices
 import com.google.wear.onestep.data.room.CompletedActivity
 import com.google.wear.onestep.navigation.OneStepNavController.navigateToActivity
 import com.google.wear.onestep.navigation.Screens
+import java.time.Instant
 
 @Composable
 fun BrowseScreen(
@@ -64,10 +68,10 @@ fun BrowseScreen(
     scrollState: ScalingLazyListState,
     focusRequester: FocusRequester,
     state: BrowseScreenState,
-    modifier: Modifier = Modifier,
     onClick: (CompletedActivity) -> Unit,
     onAuth: (() -> Unit)?,
-    onAddActivity: () -> Unit
+    onAddActivity: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     ScalingLazyColumn(
         modifier = modifier
@@ -94,4 +98,22 @@ fun BrowseScreen(
             }
         }
     }
+}
+
+@WearPreviewDevices
+@Composable
+fun BrowseScreenPreview() {
+    BrowseScreen(
+        scrollState = rememberScalingLazyListState(),
+        focusRequester = remember { FocusRequester() },
+        state = BrowseScreenState(
+            listOf(
+                CompletedActivity("1", "Running", 15.0, Instant.now()),
+                CompletedActivity("2", "Walking", 20.0, Instant.now())
+            )
+        ),
+        onClick = {},
+        onAuth = null,
+        onAddActivity = {}
+    )
 }

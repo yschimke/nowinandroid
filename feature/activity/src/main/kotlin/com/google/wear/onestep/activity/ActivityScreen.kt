@@ -22,17 +22,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListState
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.rememberScalingLazyListState
 import com.google.android.horologist.compose.layout.StateUtils.rememberStateWithLifecycle
 import com.google.android.horologist.compose.navscaffold.scrollableColumn
+import com.google.android.horologist.compose.previews.WearPreviewDevices
 import com.google.wear.onestep.data.room.CompletedActivity
+import java.time.Instant
 import java.time.ZoneId
-import java.time.ZoneOffset
 
 @Composable
 fun ActivityScreen(
@@ -84,4 +84,14 @@ fun ActivityScreen(
             }
         }
     }
+}
+
+@WearPreviewDevices
+@Composable
+fun ActivityScreenPreview() {
+    ActivityScreen(
+        rememberScalingLazyListState(), remember { FocusRequester() }, ActivityScreenState(
+            CompletedActivity("1", "Running", 30.0, Instant.now())
+        )
+    )
 }
