@@ -27,8 +27,8 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OneStepTileProviderService : SuspendingTileService() {
-    private var renderer = OneStepTileRenderer(this)
+class JetFitTileProviderService : SuspendingTileService() {
+    private var renderer = JetFitTileRenderer(this)
 
     @Inject
     lateinit var activityRepository: ActivityRepository
@@ -49,9 +49,9 @@ class OneStepTileProviderService : SuspendingTileService() {
             activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
 
         return renderer.renderTimeline(
-            OneStepTileRenderer.Data(
+            JetFitTileRenderer.Data(
             activities.map {
-                OneStepTileRenderer.Activity(it.activityId, it.title)
+                JetFitTileRenderer.Activity(it.activityId, it.title)
             }
         ), requestParams)
     }

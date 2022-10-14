@@ -12,6 +12,6 @@
   -->
 
 <resources>
-    <string name="app_name">OneStep</string>
-    <string name="title_activity_status">OneStep</string>
+    <string name="app_name">JetFit</string>
+    <string name="title_activity_status">JetFit</string>
 </resources>

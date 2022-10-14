@@ -36,7 +36,7 @@ import com.google.wear.jetfit.login.LoginScreen
 import com.google.wear.jetfit.navigation.Screens
 
 @Composable
-fun OnStepApp(
+fun JetFitApp(
     navController: NavHostController,
     viewModel: AppViewModel = hiltViewModel()
 ) {

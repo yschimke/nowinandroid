@@ -39,8 +39,8 @@ import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import com.google.wear.jetfit.compose.theme.AdsColorPalette
 import com.google.wear.jetfit.core.compose.R
 
-class OneStepTileRenderer(context: Context) :
-    SingleTileLayoutRenderer<OneStepTileRenderer.Data, Unit>(context) {
+class JetFitTileRenderer(context: Context) :
+    SingleTileLayoutRenderer<JetFitTileRenderer.Data, Unit>(context) {
     override fun createTheme(): Colors {
         return AdsColorPalette.toTileColors()
     }
@@ -136,17 +136,17 @@ fun SampleTilePreview() {
     val context = LocalContext.current
 
     val tileState = remember {
-        OneStepTileRenderer.Data(
+        JetFitTileRenderer.Data(
             listOf(
-                OneStepTileRenderer.Activity("1", "Title 1"),
-                OneStepTileRenderer.Activity("2", "Title 2"),
-                OneStepTileRenderer.Activity("3", "Title 3")
+                JetFitTileRenderer.Activity("1", "Title 1"),
+                JetFitTileRenderer.Activity("2", "Title 2"),
+                JetFitTileRenderer.Activity("3", "Title 3")
             ),
         )
     }
 
     val renderer = remember {
-        OneStepTileRenderer(context = context)
+        JetFitTileRenderer(context = context)
     }
 
     TileLayoutPreview(

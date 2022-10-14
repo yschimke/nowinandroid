@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name="com.google.wear.jetfit.wearapp.OneStepApplication"
+        android:name="com.google.wear.jetfit.wearapp.JetFitApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_nordic"
         android:label="@string/app_name"
@@ -20,7 +20,7 @@
         >
 
         <activity
-            android:name="com.google.wear.jetfit.wearapp.OneStepActivity"
+            android:name="com.google.wear.jetfit.wearapp.JetFitActivity"
             android:exported="true"
             android:label="@string/title_activity_status"
             android:theme="@android:style/Theme.DeviceDefault"
@@ -37,8 +37,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="onestep"
-                    android:scheme="onestep" />
+                    android:host="jetfit"
+                    android:scheme="jetfit" />
             </intent-filter>
         </activity>
     </application>

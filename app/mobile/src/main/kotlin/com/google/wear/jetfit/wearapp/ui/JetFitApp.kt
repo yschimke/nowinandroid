@@ -23,7 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 
 @Composable
-fun OneStepApp(
+fun JetFitApp(
     navController: NavHostController,
     viewModel: AppViewModel = hiltViewModel()
 ) {

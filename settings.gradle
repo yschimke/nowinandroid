@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 }
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-rootProject.name = "wear-onestep"
+rootProject.name = "wear-jetfit"
 include ':app:mobile'
 include ':app:wear'
 include ':core:auth'

@@ -33,7 +33,7 @@ val AdsColorPalette = Colors(
 )
 
 @Composable
-fun OneStepTheme(
+fun JetFitTheme(
     content: @Composable() () -> Unit
 ) {
     MaterialTheme(

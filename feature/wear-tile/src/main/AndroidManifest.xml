@@ -6,7 +6,7 @@
     <application>
 
         <service
-            android:name="com.google.wear.jetfit.tile.OneStepTileProviderService"
+            android:name="com.google.wear.jetfit.tile.JetFitTileProviderService"
             android:label="@string/tile_name"
             android:icon="@drawable/ic_nordic"
             android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER"

@@ -17,4 +17,4 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class OneStepApplication: Application()
+class JetFitApplication: Application()

@@ -33,7 +33,7 @@ import com.google.android.horologist.compose.layout.StateUtils.rememberStateWith
 import com.google.android.horologist.compose.navscaffold.scrollableColumn
 import com.google.android.horologist.compose.previews.WearPreviewDevices
 import com.google.wear.jetfit.data.room.CompletedActivity
-import com.google.wear.jetfit.navigation.OneStepNavController.navigateToActivity
+import com.google.wear.jetfit.navigation.JetFitNavController.navigateToActivity
 import java.time.Instant
 
 @Composable

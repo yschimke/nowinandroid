@@ -18,7 +18,7 @@ package com.google.wear.jetfit.navigation
 
 import androidx.navigation.NavController
 
-object OneStepNavController {
+object JetFitNavController {
     fun NavController.navigateToHome() {
         navigate(Screens.Home.route)
     }

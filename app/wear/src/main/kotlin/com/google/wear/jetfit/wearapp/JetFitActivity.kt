@@ -16,22 +16,37 @@ package com.google.wear.jetfit.wearapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.google.wear.jetfit.wearapp.ui.OneStepApp
+import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import com.google.wear.jetfit.BuildConfig
+import com.google.wear.jetfit.wearapp.ui.JetFitApp
 import dagger.hilt.android.AndroidEntryPoint
+import com.google.wear.jetfit.compose.util.JankPrinter
 
 @AndroidEntryPoint
-class OneStepActivity : ComponentActivity() {
+class JetFitActivity : ComponentActivity() {
     lateinit var navController: NavHostController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent {
-            navController = rememberNavController()
+        val jankPrinter: JankPrinter? = if (BuildConfig.DEBUG) null else JankPrinter()
 
-            OneStepApp(navController = navController)
+        setContent {
+            navController = rememberSwipeDismissableNavController()
+
+            JetFitApp(navController = navController)
+
+            if (jankPrinter != null) {
+                LaunchedEffect(Unit) {
+                    navController.currentBackStackEntryFlow.collect {
+                        jankPrinter.setRouteState(route = it.destination.route)
+                    }
+                }
+            }
         }
+
+        jankPrinter?.installJankStats(activity = this)
     }
 }
