@@ -54,6 +54,6 @@ dependencies {
     implementation(libs.com.google.dagger.hilt.android)
 
     debugImplementation(libs.horologist.compose.tools)
-    debugImplementation(libs.androidx.complications.rendering)
+//    debugImplementation(libs.androidx.complications.rendering)
     debugImplementation(libs.androidx.compose.ui.ui.tooling.preview)
 }

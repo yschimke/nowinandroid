@@ -8,22 +8,9 @@
     </option>
     <LaunchOptions>
       <option name="chosenSlots">
-        <list>
-          <ChosenSlot>
-            <option name="id" value="0" />
-            <option name="slotFocused" value="false" />
-            <option name="slotTypeFocused" value="false" />
-            <option name="type" value="SHORT_TEXT" />
-          </ChosenSlot>
-          <ChosenSlot>
-            <option name="id" value="1" />
-            <option name="slotFocused" value="false" />
-            <option name="slotTypeFocused" value="false" />
-            <option name="type" value="RANGED_VALUE" />
-          </ChosenSlot>
-        </list>
+        <list />
       </option>
-      <option name="componentName" value="com.google.wear.onestep.complication.WeeklyGoalComplicationService" />
+      <option name="componentName" value="com.google.wear.onestep.complication.TestDataComplicationService" />
     </LaunchOptions>
     <DeployOptions>
       <option name="pmInstallFlags" value="" />
