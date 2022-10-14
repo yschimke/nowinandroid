@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tile_name">Ads App</string>
+    <string name="tile_name">JetFit (H)</string>
+    <string name="tile_name_standard">JetFit</string>
 </resources>

@@ -40,19 +40,10 @@ import com.google.wear.jetfit.compose.theme.AdsColorPalette
 import com.google.wear.jetfit.core.compose.R
 
 class JetFitTileRenderer(context: Context) :
-    SingleTileLayoutRenderer<JetFitTileRenderer.Data, Unit>(context) {
+    SingleTileLayoutRenderer<Data, Unit>(context) {
     override fun createTheme(): Colors {
         return AdsColorPalette.toTileColors()
     }
-
-    data class Data(
-        val activities: List<Activity>,
-    )
-
-    data class Activity(
-        val id: String,
-        val title: String,
-    )
 
     override fun renderTile(
         state: Data,
@@ -136,11 +127,11 @@ fun SampleTilePreview() {
     val context = LocalContext.current
 
     val tileState = remember {
-        JetFitTileRenderer.Data(
+        Data(
             listOf(
-                JetFitTileRenderer.Activity("1", "Title 1"),
-                JetFitTileRenderer.Activity("2", "Title 2"),
-                JetFitTileRenderer.Activity("3", "Title 3")
+                Activity("1", "Title 1"),
+                Activity("2", "Title 2"),
+                Activity("3", "Title 3")
             ),
         )
     }

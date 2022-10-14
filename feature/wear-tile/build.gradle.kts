@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.com.google.dagger.hilt.android)
     implementation(libs.horologist.tiles)
     implementation(libs.androidx.wear.tiles.material)
+    implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.guava)
 
     debugImplementation(libs.horologist.compose.tools)
     debugImplementation(libs.androidx.compose.ui.ui.tooling.preview)

@@ -49,9 +49,9 @@ class JetFitTileProviderService : SuspendingTileService() {
             activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
 
         return renderer.renderTimeline(
-            JetFitTileRenderer.Data(
+            Data(
             activities.map {
-                JetFitTileRenderer.Activity(it.activityId, it.title)
+                Activity(it.activityId, it.title)
             }
         ), requestParams)
     }
