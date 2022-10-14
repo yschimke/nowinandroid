@@ -23,12 +23,12 @@ secrets {
 }
 
 android {
-    namespace = "com.google.wear.onestep"
+    namespace = "com.google.wear.jetfit"
 
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.google.wear.onestep"
+        applicationId = "com.google.wear.jetfit"
         minSdk = 26
         targetSdk = 33
         versionCode = 1

@@ -17,7 +17,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        namespace = "com.google.wear.onestep.api"
+        namespace = "com.google.wear.jetfit.api"
         minSdk = 26
         targetSdk = 33
     }

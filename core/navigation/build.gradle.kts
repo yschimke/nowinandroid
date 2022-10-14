@@ -10,7 +10,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        namespace = "com.google.wear.onestep.core.navigation"
+        namespace = "com.google.wear.jetfit.core.navigation"
         minSdk = 26
         targetSdk = 33
     }

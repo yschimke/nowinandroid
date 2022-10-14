@@ -10,7 +10,7 @@
       <option name="chosenSlots">
         <list />
       </option>
-      <option name="componentName" value="com.google.wear.onestep.complication.TestDataComplicationService" />
+      <option name="componentName" value="com.google.wear.jetfit.complication.TestDataComplicationService" />
     </LaunchOptions>
     <DeployOptions>
       <option name="pmInstallFlags" value="" />

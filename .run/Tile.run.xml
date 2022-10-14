@@ -7,7 +7,7 @@
       <list />
     </option>
     <LaunchOptions>
-      <option name="componentName" value="com.google.wear.onestep.tile.OneStepTileProviderService" />
+      <option name="componentName" value="com.google.wear.jetfit.tile.OneStepTileProviderService" />
     </LaunchOptions>
     <DeployOptions>
       <option name="pmInstallFlags" value="" />

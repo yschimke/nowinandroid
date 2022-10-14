@@ -6,7 +6,7 @@
     <application>
 
         <service
-            android:name="com.google.wear.onestep.complication.WeeklyGoalComplicationService"
+            android:name="com.google.wear.jetfit.complication.WeeklyGoalComplicationService"
             android:label="@string/tile_name"
             android:icon="@drawable/ic_nordic"
             android:exported="true"
