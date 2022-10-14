@@ -21,7 +21,6 @@ import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import coil.ImageLoader
 import com.google.android.horologist.tiles.complication.ComplicationTemplate
 import com.google.android.horologist.tiles.complication.DataComplicationService
-import com.google.wear.jetfit.complication.WeeklyGoalTemplate.Data
 import com.google.wear.jetfit.data.repository.ActivityRepository
 import com.google.wear.jetfit.data.repository.SettingsRepository
 import com.google.wear.jetfit.navigation.IntentBuilder

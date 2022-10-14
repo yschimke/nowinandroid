@@ -16,7 +16,6 @@
 
 package com.google.wear.jetfit.complication;
 
-import android.app.PendingIntent
 import android.content.Context
 import android.graphics.drawable.Icon
 import androidx.compose.runtime.Composable
@@ -37,16 +36,7 @@ import java.time.Instant
 public class WeeklyGoalTemplate(
     context: Context
 ) :
-    TypedComplicationTemplate<WeeklyGoalTemplate.Data>(context) {
-    data class Data(
-        val title: String,
-        val activities: List<CompletedActivity>,
-        val goal: Double,
-        val launchIntent: PendingIntent?
-    ) {
-        val value = activities.sumOf { it.distance }
-        val percent: String = "${(value / goal * 100f).toInt()}%"
-    }
+    TypedComplicationTemplate<Data>(context) {
 
     override fun previewData(): Data = Data(
         title = "OneStep",
@@ -114,7 +104,7 @@ fun AppLaunchComplicationPreviewDefaultDataTemp() {
 
     ComplicationRendererPreview(
         complicationRenderer = renderer,
-        data = WeeklyGoalTemplate.Data(
+        data = Data(
             title = "OneStep",
             activities = listOf(CompletedActivity("1", "Running", 30.0, Instant.now())),
             goal = 50.0,

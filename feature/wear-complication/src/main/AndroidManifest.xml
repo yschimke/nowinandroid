@@ -6,8 +6,26 @@
     <application>
 
         <service
+            android:name="com.google.wear.jetfit.complication.StandardWeeklyGoalComplicationService"
+            android:label="@string/complication_name"
+            android:icon="@drawable/ic_nordic"
+            android:exported="true"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SMALL_IMAGE,SHORT_TEXT,RANGED_VALUE" />
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="0" />
+        </service>
+
+        <service
             android:name="com.google.wear.jetfit.complication.WeeklyGoalComplicationService"
-            android:label="@string/tile_name"
+            android:label="@string/complication_name_h"
             android:icon="@drawable/ic_nordic"
             android:exported="true"
             android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">

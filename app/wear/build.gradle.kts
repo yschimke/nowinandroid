@@ -145,7 +145,7 @@ dependencies {
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     implementation("com.squareup.moshi:moshi:1.14.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha02")
-//    implementation(libs.androidx.complications.datasource.ktx)
+    implementation(libs.androidx.complications.datasource.ktx)
 
     debugImplementation(libs.androidx.compose.ui.ui.tooling)
 
