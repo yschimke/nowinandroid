@@ -94,6 +94,8 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.auth)
     implementation(projects.core.navigation)
+    implementation(projects.feature.mobileHome)
+    implementation(projects.feature.mobileActivity)
 
     implementation(libs.startup.runtime)
     implementation(libs.coil)
