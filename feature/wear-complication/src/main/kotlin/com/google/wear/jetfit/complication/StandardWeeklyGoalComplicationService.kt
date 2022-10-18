@@ -34,6 +34,8 @@ import com.google.wear.jetfit.core.compose.R
 import com.google.wear.jetfit.data.repository.ActivityRepository
 import com.google.wear.jetfit.data.repository.SettingsRepository
 import com.google.wear.jetfit.navigation.IntentBuilder
+import com.google.wear.jetfit.reports.WeeklyProgressReport
+import com.google.wear.jetfit.reports.WeeklyProgressUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import javax.inject.Inject
@@ -44,30 +46,16 @@ class StandardWeeklyGoalComplicationService() : SuspendingComplicationDataSource
     lateinit var intentBuilder: IntentBuilder
 
     @Inject
-    lateinit var activityRepository: ActivityRepository
+    lateinit var weeklyProgressUseCase: WeeklyProgressUseCase
 
-    @Inject
-    lateinit var settingsRepository: SettingsRepository
-
-    fun previewData(): Data = Data(
-        title = "OneStep",
+    fun previewData(): WeeklyProgressReport = WeeklyProgressReport(
         activities = listOf(),
-        goal = 50.0,
-        launchIntent = null
+        weeklyGoal = 50.0,
+        title = "JetFit Weekly",
     )
 
-    suspend fun data(): Data {
-        val today = LocalDate.now()
-        val activities =
-            activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
-        val weeklyGoal = settingsRepository.getWeeklyGoal()
-
-        return Data(
-            "Weekly Activities",
-            activities,
-            weeklyGoal,
-            intentBuilder.buildActivityListIntent()
-        )
+    suspend fun data(): WeeklyProgressReport {
+        return weeklyProgressUseCase()
     }
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? {
@@ -78,7 +66,10 @@ class StandardWeeklyGoalComplicationService() : SuspendingComplicationDataSource
         return renderComplicationData(request.complicationType, data())
     }
 
-    private fun renderComplicationData(type: ComplicationType, data: Data): ComplicationData? {
+    private fun renderComplicationData(
+        type: ComplicationType,
+        data: WeeklyProgressReport
+    ): ComplicationData? {
         return when (type) {
             ComplicationType.RANGED_VALUE -> renderRangedValue(data)
             ComplicationType.SHORT_TEXT -> renderShortText(data)
@@ -87,15 +78,18 @@ class StandardWeeklyGoalComplicationService() : SuspendingComplicationDataSource
         }
     }
 
-    fun renderRangedValue(data: Data): RangedValueComplicationData {
+    fun renderRangedValue(data: WeeklyProgressReport): RangedValueComplicationData {
         return RangedValueComplicationData.Builder(
-            data.value.toFloat(), 0f, data.goal.toFloat(), PlainComplicationText.Builder(
-                text = "Achieved ${data.percent}"
+            data.totalActivityDistance.toFloat(),
+            0f,
+            data.weeklyGoal.toFloat(),
+            PlainComplicationText.Builder(
+                text = "Achieved ${data.percentString}"
             ).build()
         )
             .setText(
                 PlainComplicationText.Builder(
-                    text = data.percent
+                    text = data.percentString
                 ).build()
             )
             .setTitle(
@@ -103,16 +97,16 @@ class StandardWeeklyGoalComplicationService() : SuspendingComplicationDataSource
                     text = data.title
                 ).build()
             )
-            .setTapAction(data.launchIntent)
+            .setTapAction(intentBuilder.buildActivityListIntent())
             .build()
     }
 
-    fun renderShortText(data: Data): ShortTextComplicationData =
+    fun renderShortText(data: WeeklyProgressReport): ShortTextComplicationData =
         ShortTextComplicationData.Builder(
-            PlainComplicationText.Builder(text = data.percent)
+            PlainComplicationText.Builder(text = data.percentString)
                 .build(),
             PlainComplicationText.Builder(
-                text = data.percent
+                text = data.percentString
             ).build()
         )
             .setMonochromaticImage(
@@ -131,11 +125,11 @@ class StandardWeeklyGoalComplicationService() : SuspendingComplicationDataSource
                     .build()
             )
             .setTapAction(
-                data.launchIntent
+                intentBuilder.buildActivityListIntent()
             )
             .build()
 
-    fun renderSmallImage(data: Data): SmallImageComplicationData {
+    fun renderSmallImage(data: WeeklyProgressReport): SmallImageComplicationData {
         return SmallImageComplicationData.Builder(
             smallImage = SmallImage.Builder(
                 image = Icon.createWithResource(this, R.drawable.ic_nordic),
@@ -143,12 +137,12 @@ class StandardWeeklyGoalComplicationService() : SuspendingComplicationDataSource
             )
                 .build(),
             contentDescription = PlainComplicationText.Builder(
-                text = data.percent
+                text = data.percentString
             )
                 .build()
         )
             .setTapAction(
-                tapAction = data.launchIntent
+                tapAction = intentBuilder.buildActivityListIntent()
             )
             .build()
     }

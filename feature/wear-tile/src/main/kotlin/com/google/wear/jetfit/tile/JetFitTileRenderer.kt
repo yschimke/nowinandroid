@@ -30,23 +30,20 @@ import androidx.wear.tiles.LayoutElementBuilders.Box
 import androidx.wear.tiles.ModifiersBuilders.Clickable
 import androidx.wear.tiles.ResourceBuilders.Resources
 import androidx.wear.tiles.material.Button
-import androidx.wear.tiles.material.Colors
 import androidx.wear.tiles.material.layouts.MultiButtonLayout
 import com.google.android.horologist.compose.previews.WearPreviewDevices
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.images.drawableResToImageResource
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
-import com.google.wear.jetfit.compose.theme.AdsColorPalette
 import com.google.wear.jetfit.core.compose.R
+import com.google.wear.jetfit.data.room.CompletedActivity
+import com.google.wear.jetfit.reports.WeeklyProgressReport
+import java.time.Instant
 
-class JetFitTileRenderer(context: Context) :
-    SingleTileLayoutRenderer<Data, Unit>(context) {
-    override fun createTheme(): Colors {
-        return AdsColorPalette.toTileColors()
-    }
+class JetFitTileRenderer(context: Context) : SingleTileLayoutRenderer<WeeklyProgressReport, Unit>(context) {
 
     override fun renderTile(
-        state: Data,
+        state: WeeklyProgressReport,
         deviceParameters: DeviceParametersBuilders.DeviceParameters,
     ): LayoutElementBuilders.LayoutElement {
         return Box.Builder()
@@ -64,7 +61,7 @@ class JetFitTileRenderer(context: Context) :
     }
 
     private fun activityLayout(
-        activity: Activity,
+        activity: CompletedActivity,
     ) = Button.Builder(
         context, Clickable.Builder()
             .setOnClick(
@@ -72,10 +69,10 @@ class JetFitTileRenderer(context: Context) :
                     .setAndroidActivity(
                         AndroidActivity.Builder()
                             .setPackageName(context.packageName)
-                            .setClassName("com.google.wear.jetfit.wearapp.OneStepActivity")
+                            .setClassName("com.google.wear.jetfit.wearapp.JetFitActivity")
                             .addKeyToExtraMapping(
                                 "activityId", AndroidStringExtra.Builder()
-                                    .setValue(activity.id)
+                                    .setValue(activity.activityId)
                                     .build()
                             )
                             .build()
@@ -95,14 +92,14 @@ class JetFitTileRenderer(context: Context) :
                     .setAndroidActivity(
                         AndroidActivity.Builder()
                             .setPackageName(context.packageName)
-                            .setClassName("com.google.wear.jetfit.wearapp.OneStepActivity")
+                            .setClassName("com.google.wear.jetfit.wearapp.JetFitActivity")
                             .build()
                     )
                     .build()
             )
             .build()
     )
-        .setContentDescription("OneStep")
+        .setContentDescription("JetFit")
         .setImageContent(AppIcon)
         .build()
 
@@ -127,12 +124,14 @@ fun SampleTilePreview() {
     val context = LocalContext.current
 
     val tileState = remember {
-        Data(
+        WeeklyProgressReport(
             listOf(
-                Activity("1", "Title 1"),
-                Activity("2", "Title 2"),
-                Activity("3", "Title 3")
+                CompletedActivity("1", "Title 1", 10.0, Instant.now()),
+                CompletedActivity("2", "Title 2", 20.0, Instant.now()),
+                CompletedActivity("3", "Title 3", 5.0, Instant.now())
             ),
+            weeklyGoal = 50.0,
+            title = "JetFit"
         )
     }
 

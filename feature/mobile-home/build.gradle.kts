@@ -10,7 +10,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        namespace = "com.google.wear.jetfit.wear.complication"
+        namespace = "com.google.wear.jetfit.mobile.home"
         minSdk = 26
         targetSdk = 33
     }
@@ -25,7 +25,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-        freeCompilerArgs += "-opt-in=com.google.android.horologist.tiles.ExperimentalHorologistTilesApi"
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.3.2"
@@ -33,23 +32,12 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.compose)
-    implementation(projects.core.data)
-    implementation(projects.core.navigation)
-    implementation(projects.core.reports)
-
     kapt(libs.androidx.hilt.hilt.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
 
-    implementation(libs.startup.runtime)
-    implementation(libs.androidx.compose.material.material.icons.core)
-    implementation(libs.androidx.compose.material.material.icons.extended)
-    implementation(libs.com.google.dagger.hilt.android)
-    implementation(libs.androidx.complications.datasource.ktx)
-    implementation(libs.horologist.tiles)
-    implementation(libs.coil)
-    implementation(libs.androidx.compose.ui.ui.tooling)
+    implementation(projects.core.compose)
+    implementation(projects.core.data)
+    implementation(projects.core.navigation)
 
-    debugImplementation(libs.androidx.complications.rendering)
-    debugImplementation(libs.androidx.compose.ui.ui.tooling.preview)
+    implementation(libs.com.google.dagger.hilt.android)
 }

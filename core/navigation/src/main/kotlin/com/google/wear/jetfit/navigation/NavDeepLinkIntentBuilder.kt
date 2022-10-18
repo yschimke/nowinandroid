@@ -28,7 +28,7 @@ public class NavDeepLinkIntentBuilder(
     override fun buildActivityListIntent(): PendingIntent {
         val taskDetailIntent = Intent(
             Intent.ACTION_VIEW,
-            "onestep://onestep/home".toUri()
+            "jetfit://jetfit/home".toUri()
         )
 
         return TaskStackBuilder.create(application).run {
@@ -40,7 +40,7 @@ public class NavDeepLinkIntentBuilder(
     override fun buildActivityIntent(activityId: String): PendingIntent {
         val taskDetailIntent = Intent(
             Intent.ACTION_VIEW,
-            "onestep://onestep/activity/$activityId".toUri()
+            "jetfit://jetfit/activity/$activityId".toUri()
         )
 
         return TaskStackBuilder.create(application).run {

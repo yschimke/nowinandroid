@@ -51,7 +51,7 @@ fun JetFitApp(
             scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) },
             deepLinks = listOf(
                 navDeepLink {
-                    uriPattern = "onestep://onestep/home"
+                    uriPattern = "jetfit://jetfit/home"
                 }
             )
         ) {
@@ -75,7 +75,7 @@ fun JetFitApp(
             ),
             deepLinks = listOf(
                 navDeepLink {
-                    uriPattern = "onestep://onestep/activity/{activityId}"
+                    uriPattern = "jetfit://jetfit/activity/{activityId}"
                 }
             )
         ) {

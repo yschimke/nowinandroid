@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package com.google.wear.jetfit.data.datastore
+package com.google.wear.jetfit.reports
 
-import android.content.Context
+import com.google.wear.jetfit.data.repository.ActivityRepository
 import com.google.wear.jetfit.data.repository.SettingsRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.first
+import java.time.LocalDate
 import javax.inject.Inject
 
-class DataStoreSettingsRepository @Inject constructor(
-    private @ApplicationContext val application: Context
-) : SettingsRepository {
-    val dataStore = application.settingsStore
+class WeeklyProgressUseCase
+@Inject constructor(
+    val activityRepository: ActivityRepository,
+    val settingsRepository: SettingsRepository
+) {
+    suspend operator fun invoke(): WeeklyProgressReport {
+        val today = LocalDate.now()
+        val activities =
+            activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
+        val weeklyGoal = settingsRepository.getWeeklyGoal()
 
-    override suspend fun getWeeklyGoal(): Double {
-        val weeklyGoal = dataStore.data.first().weeklyGoal
-
-        return if (weeklyGoal == 0.0) {
-            50.0
-        } else {
-            weeklyGoal
-        }
+        return WeeklyProgressReport(activities, weeklyGoal, "JetFit Weekly")
     }
 }

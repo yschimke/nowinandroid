@@ -39,7 +39,7 @@ public class WeeklyGoalTemplate(
     TypedComplicationTemplate<Data>(context) {
 
     override fun previewData(): Data = Data(
-        title = "OneStep",
+        title = "JetFit Weekly",
         activities = listOf(),
         goal = 50.0,
         launchIntent = null
@@ -105,7 +105,7 @@ fun AppLaunchComplicationPreviewDefaultDataTemp() {
     ComplicationRendererPreview(
         complicationRenderer = renderer,
         data = Data(
-            title = "OneStep",
+            title = "JetFit Weekly",
             activities = listOf(CompletedActivity("1", "Running", 30.0, Instant.now())),
             goal = 50.0,
             launchIntent = null

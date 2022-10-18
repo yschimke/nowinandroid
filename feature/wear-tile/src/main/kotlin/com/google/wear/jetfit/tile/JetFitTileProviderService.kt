@@ -22,6 +22,7 @@ import androidx.wear.tiles.TileBuilders.Tile
 import com.google.android.horologist.tiles.SuspendingTileService
 import com.google.wear.jetfit.data.repository.ActivityRepository
 import com.google.wear.jetfit.data.repository.SettingsRepository
+import com.google.wear.jetfit.reports.WeeklyProgressUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import javax.inject.Inject
@@ -31,10 +32,7 @@ class JetFitTileProviderService : SuspendingTileService() {
     private var renderer = JetFitTileRenderer(this)
 
     @Inject
-    lateinit var activityRepository: ActivityRepository
-
-    @Inject
-    lateinit var settingsRepository: SettingsRepository
+    lateinit var weeklyProgressUseCase: WeeklyProgressUseCase
 
     override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources {
         return renderer.produceRequestedResources(
@@ -44,15 +42,7 @@ class JetFitTileProviderService : SuspendingTileService() {
     }
 
     override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): Tile {
-        val today = LocalDate.now()
-        val activities =
-            activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
-
         return renderer.renderTimeline(
-            Data(
-            activities.map {
-                Activity(it.activityId, it.title)
-            }
-        ), requestParams)
+            weeklyProgressUseCase(), requestParams)
     }
 }

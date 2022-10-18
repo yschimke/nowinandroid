@@ -108,7 +108,7 @@ class StandardJetFitTileProviderService : TileService() {
                     .setAndroidActivity(
                         ActionBuilders.AndroidActivity.Builder()
                             .setPackageName(packageName)
-                            .setClassName("com.google.wear.jetfit.wearapp.OneStepActivity")
+                            .setClassName("com.google.wear.jetfit.wearapp.JetFitActivity")
                             .addKeyToExtraMapping(
                                 "activityId", ActionBuilders.AndroidStringExtra.Builder()
                                     .setValue(activity.activityId)
@@ -131,14 +131,14 @@ class StandardJetFitTileProviderService : TileService() {
                     .setAndroidActivity(
                         ActionBuilders.AndroidActivity.Builder()
                             .setPackageName(packageName)
-                            .setClassName("com.google.wear.jetfit.wearapp.OneStepActivity")
+                            .setClassName("com.google.wear.jetfit.wearapp.JetFitActivity")
                             .build()
                     )
                     .build()
             )
             .build()
     )
-        .setContentDescription("OneStep")
+        .setContentDescription("JetFit")
         .setImageContent(JetFitTileRenderer.AppIcon)
         .build()
 
