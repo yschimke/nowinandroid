@@ -2,4 +2,5 @@
 <resources>
     <string name="tile_name_h">JetFit (H)</string>
     <string name="tile_name">JetFit</string>
+    <string name="weekly_tile_name">Weekly Goals</string>
 </resources>

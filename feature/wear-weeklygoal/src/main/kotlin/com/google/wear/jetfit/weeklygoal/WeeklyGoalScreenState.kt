@@ -14,13 +14,8 @@
  * limitations under the License.
  */
 
-package com.google.wear.jetfit.tile
+package com.google.wear.jetfit.weeklygoal
 
-data class Data(
-    val activities: List<Activity>,
-)
+import com.google.wear.jetfit.reports.WeeklyProgressReport
 
-data class Activity(
-    val id: String,
-    val title: String,
-)
+data class WeeklyGoalScreenState(val weeklyGoalReport: WeeklyProgressReport? = null)

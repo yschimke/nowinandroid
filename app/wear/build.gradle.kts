@@ -102,6 +102,7 @@ dependencies {
     implementation(projects.core.compose)
     implementation(projects.core.data)
     implementation(projects.core.auth)
+    implementation(projects.core.charts)
     implementation(projects.core.navigation)
     implementation(projects.feature.wearComplication)
 

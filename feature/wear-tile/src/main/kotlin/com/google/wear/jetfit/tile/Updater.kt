@@ -26,6 +26,6 @@ import javax.inject.Singleton
 class Updater @Inject constructor(@ApplicationContext val application: Context) {
     fun update() {
         TileService.getUpdater(application)
-            .requestUpdate(JetFitTileProviderService::class.java)
+            .requestUpdate(RecentActivitiesTileProviderService::class.java)
     }
 }

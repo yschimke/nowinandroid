@@ -34,6 +34,7 @@ import com.google.wear.jetfit.core.compose.R
 import com.google.wear.jetfit.data.repository.ActivityRepository
 import com.google.wear.jetfit.data.repository.SettingsRepository
 import com.google.wear.jetfit.navigation.IntentBuilder
+import com.google.wear.jetfit.reports.SampleData
 import com.google.wear.jetfit.reports.WeeklyProgressReport
 import com.google.wear.jetfit.reports.WeeklyProgressUseCase
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,11 +49,7 @@ class StandardWeeklyGoalComplicationService() : SuspendingComplicationDataSource
     @Inject
     lateinit var weeklyProgressUseCase: WeeklyProgressUseCase
 
-    fun previewData(): WeeklyProgressReport = WeeklyProgressReport(
-        activities = listOf(),
-        weeklyGoal = 50.0,
-        title = "JetFit Weekly",
-    )
+    fun previewData(): WeeklyProgressReport = SampleData.Weekly
 
     suspend fun data(): WeeklyProgressReport {
         return weeklyProgressUseCase()

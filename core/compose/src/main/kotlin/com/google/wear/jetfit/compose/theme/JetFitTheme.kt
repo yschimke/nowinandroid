@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
 
-val AdsColorPalette = Colors(
+val JetFitColorPalette = Colors(
     primary = Color(0xff0060bfL), // #0060bf
     primaryVariant = Color(0xff668888L), // #e4eef8
     onPrimary = Color(0xFFffffffL),
@@ -37,7 +37,7 @@ fun JetFitTheme(
     content: @Composable() () -> Unit
 ) {
     MaterialTheme(
-        colors = AdsColorPalette,
+        colors = JetFitColorPalette,
         content = content
     )
 }

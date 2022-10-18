@@ -16,7 +16,6 @@ package com.google.wear.jetfit.wearapp.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.wear.jetfit.BuildConfig
 import com.google.wear.jetfit.auth.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -43,7 +42,7 @@ class AppViewModel @Inject constructor(
     )
 
     @Suppress("SENSELESS_COMPARISON")
-    fun isLoginEnabled(): Boolean = BuildConfig.serverClientId != null
+    fun isLoginEnabled(): Boolean = false //BuildConfig.serverClientId != null
 
     data class UiState(
         val account: GoogleSignInAccount? = null

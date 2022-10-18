@@ -24,40 +24,26 @@ import com.google.android.horologist.tiles.complication.DataComplicationService
 import com.google.wear.jetfit.data.repository.ActivityRepository
 import com.google.wear.jetfit.data.repository.SettingsRepository
 import com.google.wear.jetfit.navigation.IntentBuilder
+import com.google.wear.jetfit.reports.WeeklyProgressReport
+import com.google.wear.jetfit.reports.WeeklyProgressUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class WeeklyGoalComplicationService() :
-    DataComplicationService<Data, ComplicationTemplate<Data>>() {
-    @Inject
-    lateinit var intentBuilder: IntentBuilder
-
+    DataComplicationService<WeeklyProgressReport, ComplicationTemplate<WeeklyProgressReport>>() {
     @Inject
     lateinit var imageLoader: ImageLoader
 
     @Inject
-    lateinit var activityRepository: ActivityRepository
-
-    @Inject
-    lateinit var settingsRepository: SettingsRepository
+    lateinit var weeklyProgressUseCase: WeeklyProgressUseCase
 
     override val renderer: WeeklyGoalTemplate = WeeklyGoalTemplate(this)
 
-    override fun previewData(type: ComplicationType): Data = renderer.previewData()
+    override fun previewData(type: ComplicationType): WeeklyProgressReport = renderer.previewData()
 
-    override suspend fun data(request: ComplicationRequest): Data {
-        val today = LocalDate.now()
-        val activities =
-            activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
-        val weeklyGoal = settingsRepository.getWeeklyGoal()
-
-        return Data(
-            "Weekly Activities",
-            activities,
-            weeklyGoal,
-            intentBuilder.buildActivityListIntent()
-        )
+    override suspend fun data(request: ComplicationRequest): WeeklyProgressReport {
+        return weeklyProgressUseCase()
     }
 }

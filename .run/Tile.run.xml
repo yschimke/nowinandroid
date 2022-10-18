@@ -7,7 +7,7 @@
       <list />
     </option>
     <LaunchOptions>
-      <option name="componentName" value="com.google.wear.jetfit.tile.StandardJetFitTileProviderService" />
+      <option name="componentName" value="com.google.wear.jetfit.tile.RecentActivitiesTileProviderService" />
     </LaunchOptions>
     <DeployOptions>
       <option name="pmInstallFlags" value="" />

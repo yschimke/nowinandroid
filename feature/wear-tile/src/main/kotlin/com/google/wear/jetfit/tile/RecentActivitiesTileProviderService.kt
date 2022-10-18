@@ -16,33 +16,25 @@
 
 package com.google.wear.jetfit.tile
 
-import androidx.wear.tiles.RequestBuilders
-import androidx.wear.tiles.ResourceBuilders
+import androidx.wear.tiles.RequestBuilders.ResourcesRequest
+import androidx.wear.tiles.RequestBuilders.TileRequest
+import androidx.wear.tiles.ResourceBuilders.Resources
 import androidx.wear.tiles.TileBuilders.Tile
 import com.google.android.horologist.tiles.SuspendingTileService
-import com.google.wear.jetfit.data.repository.ActivityRepository
-import com.google.wear.jetfit.data.repository.SettingsRepository
 import com.google.wear.jetfit.reports.WeeklyProgressUseCase
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class JetFitTileProviderService : SuspendingTileService() {
-    private var renderer = JetFitTileRenderer(this)
+class RecentActivitiesTileProviderService : SuspendingTileService() {
+    private var renderer = RecentActivitiesTileRenderer(this)
+    @Inject lateinit var weeklyProgressUseCase: WeeklyProgressUseCase
 
-    @Inject
-    lateinit var weeklyProgressUseCase: WeeklyProgressUseCase
-
-    override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources {
-        return renderer.produceRequestedResources(
-            resourceState = Unit,
-            requestParams = requestParams
-        )
+    override suspend fun resourcesRequest(requestParams: ResourcesRequest): Resources {
+        return renderer.produceRequestedResources(Unit, requestParams)
     }
 
-    override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): Tile {
-        return renderer.renderTimeline(
-            weeklyProgressUseCase(), requestParams)
+    override suspend fun tileRequest(requestParams: TileRequest): Tile {
+        return renderer.renderTimeline(weeklyProgressUseCase(), requestParams)
     }
 }

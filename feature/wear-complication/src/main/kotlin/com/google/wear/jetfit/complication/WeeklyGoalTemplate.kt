@@ -16,6 +16,7 @@
 
 package com.google.wear.jetfit.complication;
 
+import android.app.PendingIntent
 import android.content.Context
 import android.graphics.drawable.Icon
 import androidx.compose.runtime.Composable
@@ -31,19 +32,17 @@ import com.google.android.horologist.compose.tools.ComplicationRendererPreview
 import com.google.android.horologist.tiles.complication.TypedComplicationTemplate
 import com.google.wear.jetfit.core.compose.R
 import com.google.wear.jetfit.data.room.CompletedActivity
+import com.google.wear.jetfit.reports.SampleData
+import com.google.wear.jetfit.reports.WeeklyProgressReport
 import java.time.Instant
 
 public class WeeklyGoalTemplate(
-    context: Context
+    context: Context,
+    val launchIntent: PendingIntent? = null
 ) :
-    TypedComplicationTemplate<Data>(context) {
+    TypedComplicationTemplate<WeeklyProgressReport>(context) {
 
-    override fun previewData(): Data = Data(
-        title = "JetFit Weekly",
-        activities = listOf(),
-        goal = 50.0,
-        launchIntent = null
-    )
+    override fun previewData(): WeeklyProgressReport = SampleData.Weekly
 
     override fun supportedTypes(): List<ComplicationType> =
         listOf(
@@ -52,16 +51,16 @@ public class WeeklyGoalTemplate(
             ComplicationType.SMALL_IMAGE
         )
 
-    override fun renderRangedValue(data: Data): RangedValueComplicationData? {
+    override fun renderRangedValue(data: WeeklyProgressReport): RangedValueComplicationData? {
 
         return RangedValueComplicationData.Builder(
-            data.value.toFloat(), 0f, data.goal.toFloat(), PlainComplicationText.Builder(
-                text = "Achieved ${data.percent}"
+            data.totalActivityDistance.toFloat(), 0f, data.weeklyGoal.toFloat(), PlainComplicationText.Builder(
+                text = "Achieved ${data.percentString}"
             ).build()
         )
             .setText(
                 PlainComplicationText.Builder(
-                    text = data.percent
+                    text = data.percentString
                 )
                     .build()
             )
@@ -71,24 +70,24 @@ public class WeeklyGoalTemplate(
                 )
                     .build()
             )
-            .setTapAction(data.launchIntent)
+            .setTapAction(launchIntent)
             .build()
     }
 
-    override fun renderShortText(data: Data): ShortTextComplicationData =
+    override fun renderShortText(data: WeeklyProgressReport): ShortTextComplicationData =
         shortText(
             title = data.title,
-            text = data.percent,
+            text = data.percentString,
             icon = R.drawable.ic_nordic,
-            launchIntent = data.launchIntent
+            launchIntent = launchIntent
         )
 
-    override fun renderSmallImage(data: Data): SmallImageComplicationData {
+    override fun renderSmallImage(data: WeeklyProgressReport): SmallImageComplicationData {
         return smallImage(
             icon = Icon.createWithResource(context, R.drawable.ic_nordic),
             type = SmallImageType.ICON,
-            name = data.percent,
-            launchIntent = data.launchIntent
+            name = data.percentString,
+            launchIntent = launchIntent
         )
     }
 }
@@ -104,11 +103,6 @@ fun AppLaunchComplicationPreviewDefaultDataTemp() {
 
     ComplicationRendererPreview(
         complicationRenderer = renderer,
-        data = Data(
-            title = "JetFit Weekly",
-            activities = listOf(CompletedActivity("1", "Running", 30.0, Instant.now())),
-            goal = 50.0,
-            launchIntent = null
-        )
+        data = SampleData.Weekly
     )
 }

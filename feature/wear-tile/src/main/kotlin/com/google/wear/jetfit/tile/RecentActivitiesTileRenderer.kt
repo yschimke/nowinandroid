@@ -37,10 +37,10 @@ import com.google.android.horologist.tiles.images.drawableResToImageResource
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import com.google.wear.jetfit.core.compose.R
 import com.google.wear.jetfit.data.room.CompletedActivity
+import com.google.wear.jetfit.reports.SampleData
 import com.google.wear.jetfit.reports.WeeklyProgressReport
-import java.time.Instant
 
-class JetFitTileRenderer(context: Context) : SingleTileLayoutRenderer<WeeklyProgressReport, Unit>(context) {
+class RecentActivitiesTileRenderer(context: Context) : SingleTileLayoutRenderer<WeeklyProgressReport, Unit>(context) {
 
     override fun renderTile(
         state: WeeklyProgressReport,
@@ -120,23 +120,15 @@ class JetFitTileRenderer(context: Context) : SingleTileLayoutRenderer<WeeklyProg
 
 @WearPreviewDevices
 @Composable
-fun SampleTilePreview() {
+fun RecentActivitiesTilePreview() {
     val context = LocalContext.current
 
     val tileState = remember {
-        WeeklyProgressReport(
-            listOf(
-                CompletedActivity("1", "Title 1", 10.0, Instant.now()),
-                CompletedActivity("2", "Title 2", 20.0, Instant.now()),
-                CompletedActivity("3", "Title 3", 5.0, Instant.now())
-            ),
-            weeklyGoal = 50.0,
-            title = "JetFit"
-        )
+        SampleData.Weekly
     }
 
     val renderer = remember {
-        JetFitTileRenderer(context = context)
+        RecentActivitiesTileRenderer(context = context)
     }
 
     TileLayoutPreview(

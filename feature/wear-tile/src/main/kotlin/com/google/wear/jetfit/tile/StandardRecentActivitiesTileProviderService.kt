@@ -16,7 +16,6 @@
 
 package com.google.wear.jetfit.tile
 
-import android.content.Context
 import androidx.wear.tiles.ActionBuilders
 import androidx.wear.tiles.DimensionBuilders
 import androidx.wear.tiles.LayoutElementBuilders
@@ -34,7 +33,6 @@ import com.google.android.horologist.tiles.render.PERMANENT_RESOURCES_VERSION
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.wear.jetfit.core.compose.R
 import com.google.wear.jetfit.data.repository.ActivityRepository
-import com.google.wear.jetfit.data.repository.SettingsRepository
 import com.google.wear.jetfit.data.room.CompletedActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -42,11 +40,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.guava.future
 import java.time.LocalDate
-import java.util.UUID
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class StandardJetFitTileProviderService : TileService() {
+class StandardRecentActivitiesTileProviderService : TileService() {
     private val serviceJob = Job()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
@@ -121,7 +118,7 @@ class StandardJetFitTileProviderService : TileService() {
             .build()
     )
         .setContentDescription(activity.title)
-        .setImageContent(JetFitTileRenderer.ActivityIcon)
+        .setImageContent(RecentActivitiesTileRenderer.ActivityIcon)
         .build()
 
     private fun openLayout() = Button.Builder(
@@ -139,7 +136,7 @@ class StandardJetFitTileProviderService : TileService() {
             .build()
     )
         .setContentDescription("JetFit")
-        .setImageContent(JetFitTileRenderer.AppIcon)
+        .setImageContent(RecentActivitiesTileRenderer.AppIcon)
         .build()
 
     override fun onResourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ListenableFuture<ResourceBuilders.Resources> {
@@ -148,7 +145,7 @@ class StandardJetFitTileProviderService : TileService() {
                 .setVersion(requestParams.version)
                 .apply {
                     addIdToImageMapping(
-                        JetFitTileRenderer.ActivityIcon, ImageResource.Builder()
+                        RecentActivitiesTileRenderer.ActivityIcon, ImageResource.Builder()
                             .setAndroidResourceByResId(
                                 AndroidImageResourceByResId.Builder()
                                     .setResourceId(R.drawable.ic_nordic)
@@ -157,7 +154,7 @@ class StandardJetFitTileProviderService : TileService() {
                             .build()
                     )
                     addIdToImageMapping(
-                        JetFitTileRenderer.AppIcon, ImageResource.Builder()
+                        RecentActivitiesTileRenderer.AppIcon, ImageResource.Builder()
                             .setAndroidResourceByResId(
                                 AndroidImageResourceByResId.Builder()
                                     .setResourceId(R.drawable.baseline_1x)
