@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalLifecycleComposeApi::class)
+@file:OptIn(ExperimentalLifecycleComposeApi::class)
 
 package com.google.wear.jetfit.login
 
