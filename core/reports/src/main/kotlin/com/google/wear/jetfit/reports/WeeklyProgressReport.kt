@@ -25,11 +25,11 @@ data class WeeklyProgressReport(
     val weeklyGoal: Double,
     val title: String
 ) {
-    val summary: String = "${activities.size} runs this week"
     val dailyTotals: Map<DayOfWeek, Double>
         get() = activities.groupBy { it.completed.atZone(ZoneId.systemDefault()).dayOfWeek }
             .mapValues { (k, v) -> v.sumOf { it.distance } }
 
     val totalActivityDistance: Double = activities.sumOf { it.distance }
     val percentString: String = "${(totalActivityDistance / weeklyGoal * 100f).toInt()}%"
+    val summary: String = "${activities.size} runs / ${totalActivityDistance.toInt()} miles"
 }

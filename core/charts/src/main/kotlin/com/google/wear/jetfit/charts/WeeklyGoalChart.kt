@@ -1,5 +1,4 @@
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -7,10 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
@@ -46,18 +49,18 @@ fun GoalChart(
 val days = DayOfWeek.values()
 
 fun DrawScope.goalChart(state: WeeklyProgressReport, textPaint: ComposePaint, barPaint: ComposePaint) {
-    val androidPaint = textPaint.asFrameworkPaint()
-    val width = size.width
-
     val dailyTotals = state.dailyTotals
-
     val max = dailyTotals.values.maxOrNull() ?: 10.0
-    this.drawIntoCanvas {
+    val borderStyle = Stroke(width = 2f)
+
+    drawIntoCanvas {
+        drawRoundRect(Color.White, style = borderStyle, cornerRadius = CornerRadius(5f, 5f))
         days.forEachIndexed { i, day ->
             val value = dailyTotals.getOrDefault(day, 0.0)
+            val dayLetter = day.toString().take(1)
 
-            val x = 50f + (width / 9) * i
-            it.nativeCanvas.drawText(i.toString(), x, size.height * 0.9f, androidPaint)
+            val x = 50f + (size.width / 9) * i
+            it.drawText(dayLetter, x - 5, size.height * 0.9f, textPaint)
             val height = 0.6f * (value.toFloat() / max) * size.height
             val bottom = size.height * 0.9f - 20f
             it.drawLine(
@@ -69,15 +72,18 @@ fun DrawScope.goalChart(state: WeeklyProgressReport, textPaint: ComposePaint, ba
     }
 }
 
+fun Canvas.drawText(text: String, x: Float, y: Float, paint: Paint) {
+    nativeCanvas.drawText(text, x, y, paint.asFrameworkPaint())
+}
+
 @WearLargeRoundDevicePreview
 @Composable
 fun GoalChartPreview() {
     val state = remember { SampleData.Weekly }
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         GoalChart(
-            modifier = Modifier
-                .size(160.dp, 100.dp)
-                .border(1.dp, Color.White), state = state
+            modifier = Modifier.size(160.dp, 100.dp),
+            state = state
         )
     }
 }

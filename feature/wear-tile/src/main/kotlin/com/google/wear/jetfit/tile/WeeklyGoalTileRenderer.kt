@@ -27,15 +27,19 @@ import androidx.wear.tiles.DeviceParametersBuilders
 import androidx.wear.tiles.DimensionBuilders.DpProp
 import androidx.wear.tiles.DimensionBuilders.ExpandedDimensionProp
 import androidx.wear.tiles.DimensionBuilders.WrappedDimensionProp
-import androidx.wear.tiles.LayoutElementBuilders
 import androidx.wear.tiles.LayoutElementBuilders.Column
 import androidx.wear.tiles.LayoutElementBuilders.Image
+import androidx.wear.tiles.LayoutElementBuilders.LayoutElement
+import androidx.wear.tiles.ModifiersBuilders.Clickable
 import androidx.wear.tiles.ResourceBuilders.Resources
+import androidx.wear.tiles.material.ChipColors
+import androidx.wear.tiles.material.CompactChip
 import androidx.wear.tiles.material.Text
 import androidx.wear.tiles.material.Typography.TYPOGRAPHY_CAPTION1
 import androidx.wear.tiles.material.layouts.PrimaryLayout
 import barPaint
 import com.google.android.horologist.compose.previews.WearPreviewDevices
+import com.google.android.horologist.compose.previews.WearPreviewFontSizes
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.canvas.canvasToImageResource
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
@@ -50,31 +54,36 @@ class WeeklyGoalTileRenderer(context: Context) :
     override fun renderTile(
         state: WeeklyProgressReport,
         deviceParameters: DeviceParametersBuilders.DeviceParameters,
-    ): LayoutElementBuilders.LayoutElement {
+    ): LayoutElement {
         return PrimaryLayout.Builder(deviceParameters)
+            .setContent(
+                Column.Builder()
+                    .addContent(
+                        Image.Builder()
+                            .setResourceId(DailyActivities)
+                            .setWidth(DpProp.Builder().setValue(160f).build())
+                            .setHeight(DpProp.Builder().setValue(80f).build())
+                            .build()
+                    )
+                    .setWidth(ExpandedDimensionProp.Builder().build())
+                    .setHeight(WrappedDimensionProp.Builder().build())
+                    .build()
+            )
             .setPrimaryLabelTextContent(
                 Text.Builder(context, state.summary)
                     .setTypography(TYPOGRAPHY_CAPTION1)
                     .setColor(argb(theme.onSurface))
                     .build()
             )
-            .setContent(
-                Column.Builder()
-                    .setWidth(ExpandedDimensionProp.Builder().build())
-                    .setHeight(WrappedDimensionProp.Builder().build())
-                    .addContent(
-                        Image.Builder()
-                            .setResourceId(DailyActivities)
-                            .setHeight(DpProp.Builder().setValue(100f).build())
-                            .setWidth(DpProp.Builder().setValue(100f).build())
-                            .build()
-                    )
-                    .build()
-            )
             .setPrimaryChipContent(
-                Text.Builder(context, "${state.weeklyGoal} miles")
-                    .setTypography(TYPOGRAPHY_CAPTION1)
-                    .setColor(argb(theme.onSurface))
+                CompactChip.Builder(
+                    context,
+                    "Open JetFit",
+                    Clickable.Builder()
+                        .setOnClick(openActivityClickable(context))
+                        .build(), deviceParameters
+                )
+                    .setChipColors(ChipColors.primaryChipColors(theme))
                     .build()
             )
             .build()
@@ -85,9 +94,12 @@ class WeeklyGoalTileRenderer(context: Context) :
         deviceParameters: DeviceParametersBuilders.DeviceParameters,
         resourceIds: MutableList<String>,
     ) {
-        addIdToImageMapping(DailyActivities, canvasToImageResource(Size(160f, 100f), Density(context)) {
-            goalChart(resourceState, textPaint, barPaint)
-        })
+        val density = Density(context)
+        addIdToImageMapping(
+            DailyActivities,
+            canvasToImageResource(Size(160f * density.density, 100f *  density.density), density) {
+                goalChart(resourceState, textPaint, barPaint)
+            })
     }
 
     companion object {
@@ -96,21 +108,16 @@ class WeeklyGoalTileRenderer(context: Context) :
 }
 
 @WearPreviewDevices
+@WearPreviewFontSizes
 @Composable
 fun WeeklyGoalTilePreview() {
     val context = LocalContext.current
 
-    val tileState = remember {
-        SampleData.Weekly
-    }
-
-    val renderer = remember {
-        WeeklyGoalTileRenderer(context = context)
-    }
+    val renderer = remember { WeeklyGoalTileRenderer(context = context) }
 
     TileLayoutPreview(
-        tileState,
-        tileState,
-        renderer
+        state = SampleData.Weekly,
+        resourceState = SampleData.Weekly,
+        renderer = renderer
     )
 }

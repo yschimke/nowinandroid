@@ -40,7 +40,8 @@ import com.google.wear.jetfit.data.room.CompletedActivity
 import com.google.wear.jetfit.reports.SampleData
 import com.google.wear.jetfit.reports.WeeklyProgressReport
 
-class RecentActivitiesTileRenderer(context: Context) : SingleTileLayoutRenderer<WeeklyProgressReport, Unit>(context) {
+class RecentActivitiesTileRenderer(context: Context) :
+    SingleTileLayoutRenderer<WeeklyProgressReport, Unit>(context) {
 
     override fun renderTile(
         state: WeeklyProgressReport,
@@ -65,19 +66,13 @@ class RecentActivitiesTileRenderer(context: Context) : SingleTileLayoutRenderer<
     ) = Button.Builder(
         context, Clickable.Builder()
             .setOnClick(
-                LaunchAction.Builder()
-                    .setAndroidActivity(
-                        AndroidActivity.Builder()
-                            .setPackageName(context.packageName)
-                            .setClassName("com.google.wear.jetfit.wearapp.JetFitActivity")
-                            .addKeyToExtraMapping(
-                                "activityId", AndroidStringExtra.Builder()
-                                    .setValue(activity.activityId)
-                                    .build()
-                            )
+                openActivityClickable(context) {
+                    addKeyToExtraMapping(
+                        "activityId", AndroidStringExtra.Builder()
+                            .setValue(activity.activityId)
                             .build()
                     )
-                    .build()
+                }
             )
             .build()
     )
@@ -85,23 +80,18 @@ class RecentActivitiesTileRenderer(context: Context) : SingleTileLayoutRenderer<
         .setImageContent(ActivityIcon)
         .build()
 
-    private fun openLayout() = Button.Builder(
-        context, Clickable.Builder()
-            .setOnClick(
-                LaunchAction.Builder()
-                    .setAndroidActivity(
-                        AndroidActivity.Builder()
-                            .setPackageName(context.packageName)
-                            .setClassName("com.google.wear.jetfit.wearapp.JetFitActivity")
-                            .build()
-                    )
-                    .build()
-            )
+    private fun openLayout(): Button {
+        return Button.Builder(
+            context, Clickable.Builder()
+                .setOnClick(
+                    openActivityClickable(context)
+                )
+                .build()
+        )
+            .setContentDescription("JetFit")
+            .setImageContent(AppIcon)
             .build()
-    )
-        .setContentDescription("JetFit")
-        .setImageContent(AppIcon)
-        .build()
+    }
 
     override fun Resources.Builder.produceRequestedResources(
         resourceState: Unit,
