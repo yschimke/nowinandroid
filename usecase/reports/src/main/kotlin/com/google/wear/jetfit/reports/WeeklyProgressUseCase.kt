@@ -16,22 +16,38 @@
 
 package com.google.wear.jetfit.reports
 
-import com.google.wear.jetfit.data.repository.ActivityRepository
+import com.google.wear.jetfit.data.repository.CompletedActivityRepository
+import com.google.wear.jetfit.data.repository.CurrentActivityRepository
 import com.google.wear.jetfit.data.repository.SettingsRepository
+import com.google.wear.jetfit.data.room.CompletedActivity
+import com.google.wear.jetfit.proto.Api
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import java.time.Instant
 import java.time.LocalDate
 import javax.inject.Inject
 
 class WeeklyProgressUseCase
 @Inject constructor(
-    val activityRepository: ActivityRepository,
+    val currentActivityRepository: CurrentActivityRepository,
+    val completedActivityRepository: CompletedActivityRepository,
     val settingsRepository: SettingsRepository
 ) {
-    suspend operator fun invoke(): WeeklyProgressReport {
+    operator fun invoke(): Flow<WeeklyProgressReport> = flow {
         val today = LocalDate.now()
-        val activities =
-            activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
         val weeklyGoal = settingsRepository.getWeeklyGoal()
+        val activities =
+            completedActivityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
 
-        return WeeklyProgressReport(activities, weeklyGoal, "JetFit Weekly")
+        emitAll(currentActivityRepository.getCurrentActivity().map {
+            val allActivities = activities + listOfNotNull(it?.toCompletedActivity())
+
+            WeeklyProgressReport(allActivities, weeklyGoal, "JetFit Weekly")
+        })
     }
 }
+
+private fun Api.CurrentActivity.toCompletedActivity(): CompletedActivity =
+    CompletedActivity(this.activityId, this.title, this.distance, completed = Instant.now())

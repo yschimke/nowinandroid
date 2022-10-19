@@ -15,12 +15,14 @@ package com.google.wear.jetfit.data.hilt
 
 import android.content.Context
 import androidx.room.Room
+import com.google.wear.jetfit.data.datastore.DataStoreCurrentActivityRepository
 import com.google.wear.jetfit.data.datastore.DataStoreSettingsRepository
-import com.google.wear.jetfit.data.repository.ActivityRepository
+import com.google.wear.jetfit.data.repository.CompletedActivityRepository
+import com.google.wear.jetfit.data.repository.CurrentActivityRepository
 import com.google.wear.jetfit.data.repository.SettingsRepository
 import com.google.wear.jetfit.data.room.ActivityDao
 import com.google.wear.jetfit.data.room.ActivityDatabase
-import com.google.wear.jetfit.data.room.RoomActivityRepository
+import com.google.wear.jetfit.data.room.RoomCompletedActivityRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -37,13 +39,18 @@ object DataModule {
     interface Declarations {
         @Binds
         fun bindsRoomActivityRepository(
-            repository: RoomActivityRepository
-        ): ActivityRepository
+            repository: RoomCompletedActivityRepository
+        ): CompletedActivityRepository
 
         @Binds
         fun bindsDataStoreSettingsRepository(
             repository: DataStoreSettingsRepository
         ): SettingsRepository
+
+        @Binds
+        fun bindsDataStoreCurrentActivityRepository(
+            repository: DataStoreCurrentActivityRepository
+        ): CurrentActivityRepository
     }
 
     private val DATABASE_NAME = "activities"

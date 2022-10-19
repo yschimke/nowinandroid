@@ -23,6 +23,7 @@ import androidx.wear.tiles.TileBuilders.Tile
 import com.google.android.horologist.tiles.SuspendingTileService
 import com.google.wear.jetfit.reports.WeeklyProgressUseCase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,10 +32,10 @@ class WeeklyGoalTileProviderService : SuspendingTileService() {
     @Inject lateinit var weeklyProgressUseCase: WeeklyProgressUseCase
 
     override suspend fun resourcesRequest(requestParams: ResourcesRequest): Resources {
-        return renderer.produceRequestedResources(weeklyProgressUseCase(), requestParams)
+        return renderer.produceRequestedResources(weeklyProgressUseCase().first(), requestParams)
     }
 
     override suspend fun tileRequest(requestParams: TileRequest): Tile {
-        return renderer.renderTimeline(weeklyProgressUseCase(), requestParams)
+        return renderer.renderTimeline(weeklyProgressUseCase().first(), requestParams)
     }
 }

@@ -16,17 +16,13 @@
 
 package com.google.wear.jetfit.data.repository
 
-import com.google.wear.jetfit.data.room.CompletedActivity
+import com.google.wear.jetfit.proto.Api.CurrentActivity
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDate
 
-interface ActivityRepository {
-    suspend fun getCompletedActivitiesInPeriod(
-        from: LocalDate,
-        to: LocalDate
-    ): List<CompletedActivity>
+interface CurrentActivityRepository {
+    fun getCurrentActivity(): Flow<CurrentActivity?>
 
-    fun getActivityById(activityId: String): Flow<CompletedActivity?>
-    fun getRecentActivities(count: Int): Flow<List<CompletedActivity>>
-    suspend fun addActivity(completedActivity: CompletedActivity)
+    suspend fun updateCurrentActivity(currentActivity: CurrentActivity)
+
+    suspend fun deleteCurrentActivity()
 }

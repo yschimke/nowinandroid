@@ -29,16 +29,13 @@ import androidx.wear.watchface.complications.data.SmallImageComplicationData
 import androidx.wear.watchface.complications.data.SmallImageType
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import androidx.wear.watchface.complications.datasource.SuspendingComplicationDataSourceService
-import coil.ImageLoader
 import com.google.wear.jetfit.core.compose.R
-import com.google.wear.jetfit.data.repository.ActivityRepository
-import com.google.wear.jetfit.data.repository.SettingsRepository
 import com.google.wear.jetfit.navigation.IntentBuilder
 import com.google.wear.jetfit.reports.SampleData
 import com.google.wear.jetfit.reports.WeeklyProgressReport
 import com.google.wear.jetfit.reports.WeeklyProgressUseCase
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,7 +49,7 @@ class StandardWeeklyGoalComplicationService() : SuspendingComplicationDataSource
     fun previewData(): WeeklyProgressReport = SampleData.Weekly
 
     suspend fun data(): WeeklyProgressReport {
-        return weeklyProgressUseCase()
+        return weeklyProgressUseCase().first()
     }
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? {

@@ -19,7 +19,7 @@ package com.google.wear.jetfit.browse
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.wear.jetfit.data.repository.ActivityRepository
+import com.google.wear.jetfit.data.repository.CompletedActivityRepository
 import com.google.wear.jetfit.data.room.CompletedActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -31,11 +31,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
-    private val activityRepository: ActivityRepository,
+    private val completedActivityRepository: CompletedActivityRepository,
 ) : ViewModel() {
     fun addActivity() {
         viewModelScope.launch {
-            activityRepository.addActivity(
+            completedActivityRepository.addActivity(
                 CompletedActivity(
                     System.currentTimeMillis().toString(),
                     "NEW Activity",
@@ -46,7 +46,7 @@ class BrowseViewModel @Inject constructor(
         }
     }
 
-    val state = activityRepository.getRecentActivities(10)
+    val state = completedActivityRepository.getRecentActivities(10)
         .map {
             BrowseScreenState(it)
         }

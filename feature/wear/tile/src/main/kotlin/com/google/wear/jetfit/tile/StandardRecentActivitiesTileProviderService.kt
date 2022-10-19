@@ -32,7 +32,7 @@ import androidx.wear.tiles.material.layouts.MultiButtonLayout
 import com.google.android.horologist.tiles.render.PERMANENT_RESOURCES_VERSION
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.wear.jetfit.core.compose.R
-import com.google.wear.jetfit.data.repository.ActivityRepository
+import com.google.wear.jetfit.data.repository.CompletedActivityRepository
 import com.google.wear.jetfit.data.room.CompletedActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +48,7 @@ class StandardRecentActivitiesTileProviderService : TileService() {
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
     @Inject
-    lateinit var activityRepository: ActivityRepository
+    lateinit var completedActivityRepository: CompletedActivityRepository
 
     override fun onDestroy() {
         super.onDestroy()
@@ -60,7 +60,7 @@ class StandardRecentActivitiesTileProviderService : TileService() {
 
         return serviceScope.future {
             val activities =
-                activityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
+                completedActivityRepository.getCompletedActivitiesInPeriod(today.minusWeeks(1), today)
 
             val rootLayout = LayoutElementBuilders.Box.Builder()
                 .setHeight(DimensionBuilders.ExpandedDimensionProp.Builder().build())

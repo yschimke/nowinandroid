@@ -19,20 +19,20 @@ package com.google.wear.jetfit.data.datastore
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import com.google.protobuf.InvalidProtocolBufferException
-import com.google.wear.jetfit.proto.Api.ActivityStatus
+import com.google.wear.jetfit.proto.Api.CurrentActivity
 import java.io.InputStream
 import java.io.OutputStream
 
-object ActivityStatusSerializer : Serializer<ActivityStatus> {
-    override val defaultValue: ActivityStatus = ActivityStatus.getDefaultInstance()
+object ActivityStatusSerializer : Serializer<CurrentActivity> {
+    override val defaultValue: CurrentActivity = CurrentActivity.getDefaultInstance()
 
-    override suspend fun readFrom(input: InputStream): ActivityStatus {
+    override suspend fun readFrom(input: InputStream): CurrentActivity {
         try {
-            return ActivityStatus.parseFrom(input)
+            return CurrentActivity.parseFrom(input)
         } catch (exception: InvalidProtocolBufferException) {
             throw CorruptionException("Cannot read proto.", exception)
         }
     }
 
-    override suspend fun writeTo(t: ActivityStatus, output: OutputStream) = t.writeTo(output)
+    override suspend fun writeTo(t: CurrentActivity, output: OutputStream) = t.writeTo(output)
 }

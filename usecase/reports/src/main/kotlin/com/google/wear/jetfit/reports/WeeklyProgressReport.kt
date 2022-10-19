@@ -18,6 +18,7 @@ package com.google.wear.jetfit.reports
 
 import com.google.wear.jetfit.data.room.CompletedActivity
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.ZoneId
 
 data class WeeklyProgressReport(
@@ -26,10 +27,13 @@ data class WeeklyProgressReport(
     val title: String
 ) {
     val dailyTotals: Map<DayOfWeek, Double>
-        get() = activities.groupBy { it.completed.atZone(ZoneId.systemDefault()).dayOfWeek }
+        get() = activities.groupBy { it.dayOfWeek }
             .mapValues { (k, v) -> v.sumOf { it.distance } }
 
     val totalActivityDistance: Double = activities.sumOf { it.distance }
     val percentString: String = "${(totalActivityDistance / weeklyGoal * 100f).toInt()}%"
     val summary: String = "${activities.size} runs / ${totalActivityDistance.toInt()} miles"
 }
+
+val CompletedActivity.dayOfWeek: DayOfWeek
+    get() = this.completed.atZone(ZoneId.systemDefault()).dayOfWeek

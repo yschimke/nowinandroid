@@ -4,9 +4,11 @@ package com.google.wear.jetfit.proto;
 
 option java_package = "com.google.wear.jetfit.proto";
 
-message ActivityStatus {
-  bool active = 1;
-  string message = 2;
+message CurrentActivity {
+  string activityId = 1;
+  bool active = 2;
+  string title = 3;
+  double distance = 4;
 }
 
 message Settings {

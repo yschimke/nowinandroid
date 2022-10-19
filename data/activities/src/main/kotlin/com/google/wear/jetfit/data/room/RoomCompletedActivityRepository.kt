@@ -16,15 +16,15 @@
 
 package com.google.wear.jetfit.data.room
 
-import com.google.wear.jetfit.data.repository.ActivityRepository
+import com.google.wear.jetfit.data.repository.CompletedActivityRepository
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.ZoneId
 import javax.inject.Inject
 
-class RoomActivityRepository @Inject constructor(
+class RoomCompletedActivityRepository @Inject constructor(
     private val activityDao: ActivityDao
-) : ActivityRepository {
+) : CompletedActivityRepository {
     override suspend fun getCompletedActivitiesInPeriod(
         from: LocalDate,
         to: LocalDate

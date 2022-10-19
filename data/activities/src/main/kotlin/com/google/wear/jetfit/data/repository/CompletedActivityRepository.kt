@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package com.google.wear.jetfit.data.datastore
+package com.google.wear.jetfit.data.repository
 
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
-import com.google.wear.jetfit.proto.Api.CurrentActivity
-import com.google.wear.jetfit.proto.Api.Settings
+import com.google.wear.jetfit.data.room.CompletedActivity
+import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
-val Context.currentActivityStore: DataStore<CurrentActivity> by dataStore(
-    fileName = "currentActivity.pb",
-    serializer = ActivityStatusSerializer
-)
+interface CompletedActivityRepository {
+    suspend fun getCompletedActivitiesInPeriod(
+        from: LocalDate,
+        to: LocalDate
+    ): List<CompletedActivity>
 
-val Context.settingsStore: DataStore<Settings> by dataStore(
-    fileName = "settings.pb",
-    serializer = SettingsSerializer
-)
+    fun getActivityById(activityId: String): Flow<CompletedActivity?>
+    fun getRecentActivities(count: Int): Flow<List<CompletedActivity>>
+    suspend fun addActivity(completedActivity: CompletedActivity)
+}

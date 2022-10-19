@@ -20,7 +20,7 @@ package com.google.wear.jetfit.activity
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.wear.jetfit.data.repository.ActivityRepository
+import com.google.wear.jetfit.data.repository.CompletedActivityRepository
 import com.google.wear.jetfit.navigation.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,12 +30,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActivityViewModel @Inject constructor(
-    activityRepository: ActivityRepository,
+    completedActivityRepository: CompletedActivityRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val activityId: String = savedStateHandle[Screens.Activity.activityIdArg]!!
 
-    val state = activityRepository.getActivityById(activityId)
+    val state = completedActivityRepository.getActivityById(activityId)
         .map {
             ActivityScreenState(it)
         }

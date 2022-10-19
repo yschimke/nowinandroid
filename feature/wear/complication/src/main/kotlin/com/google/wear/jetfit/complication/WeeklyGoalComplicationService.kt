@@ -21,13 +21,10 @@ import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import coil.ImageLoader
 import com.google.android.horologist.tiles.complication.ComplicationTemplate
 import com.google.android.horologist.tiles.complication.DataComplicationService
-import com.google.wear.jetfit.data.repository.ActivityRepository
-import com.google.wear.jetfit.data.repository.SettingsRepository
-import com.google.wear.jetfit.navigation.IntentBuilder
 import com.google.wear.jetfit.reports.WeeklyProgressReport
 import com.google.wear.jetfit.reports.WeeklyProgressUseCase
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,6 +41,6 @@ class WeeklyGoalComplicationService() :
     override fun previewData(type: ComplicationType): WeeklyProgressReport = renderer.previewData()
 
     override suspend fun data(request: ComplicationRequest): WeeklyProgressReport {
-        return weeklyProgressUseCase()
+        return weeklyProgressUseCase().first()
     }
 }
