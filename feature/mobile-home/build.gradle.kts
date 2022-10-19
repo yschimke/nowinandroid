@@ -36,7 +36,7 @@ dependencies {
     kapt(libs.com.google.dagger.hilt.compiler)
 
     implementation(projects.core.compose)
-    implementation(projects.core.data)
+    implementation(projects.data.activities)
     implementation(projects.core.navigation)
 
     implementation(libs.com.google.dagger.hilt.android)
