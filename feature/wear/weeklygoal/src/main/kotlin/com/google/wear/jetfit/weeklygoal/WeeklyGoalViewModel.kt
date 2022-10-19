@@ -23,6 +23,7 @@ import com.google.wear.jetfit.reports.WeeklyProgressUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -30,9 +31,7 @@ import javax.inject.Inject
 class WeeklyGoalViewModel @Inject constructor(
     weeklyProgressUseCase: WeeklyProgressUseCase,
 ) : ViewModel() {
-    val state = flow {
-        val data = weeklyProgressUseCase()
-
-        emit(WeeklyGoalScreenState(data))
+    val state = weeklyProgressUseCase().map {
+        WeeklyGoalScreenState(it)
     }.stateIn(viewModelScope, SharingStarted.Eagerly, WeeklyGoalScreenState())
 }

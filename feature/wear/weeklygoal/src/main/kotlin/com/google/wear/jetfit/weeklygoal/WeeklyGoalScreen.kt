@@ -16,28 +16,15 @@
 
 package com.google.wear.jetfit.weeklygoal
 
-import GoalChart
-import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.ScalingLazyColumn
-import androidx.wear.compose.material.ScalingLazyListState
-import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.rememberScalingLazyListState
 import com.google.android.horologist.compose.layout.StateUtils.rememberStateWithLifecycle
 import com.google.android.horologist.compose.layout.fillMaxRectangle
-import com.google.android.horologist.compose.navscaffold.scrollableColumn
 import com.google.android.horologist.compose.previews.WearPreviewDevices
-import com.google.wear.jetfit.data.room.CompletedActivity
+import com.google.wear.jetfit.charts.GoalChart
 import com.google.wear.jetfit.reports.SampleData
-import com.google.wear.jetfit.reports.WeeklyProgressReport
-import java.time.Instant
-import java.time.ZoneId
 
 @Composable
 fun WeeklyGoalScreen(

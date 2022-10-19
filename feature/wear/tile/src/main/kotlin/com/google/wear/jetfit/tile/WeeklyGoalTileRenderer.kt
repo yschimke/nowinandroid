@@ -37,16 +37,16 @@ import androidx.wear.tiles.material.CompactChip
 import androidx.wear.tiles.material.Text
 import androidx.wear.tiles.material.Typography.TYPOGRAPHY_CAPTION1
 import androidx.wear.tiles.material.layouts.PrimaryLayout
-import barPaint
 import com.google.android.horologist.compose.previews.WearPreviewDevices
 import com.google.android.horologist.compose.previews.WearPreviewFontSizes
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.canvas.canvasToImageResource
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
+import com.google.wear.jetfit.charts.barPaint
+import com.google.wear.jetfit.charts.goalChart
+import com.google.wear.jetfit.charts.textPaint
 import com.google.wear.jetfit.reports.SampleData
 import com.google.wear.jetfit.reports.WeeklyProgressReport
-import goalChart
-import textPaint
 
 class WeeklyGoalTileRenderer(context: Context) :
     SingleTileLayoutRenderer<WeeklyProgressReport, WeeklyProgressReport>(context) {
