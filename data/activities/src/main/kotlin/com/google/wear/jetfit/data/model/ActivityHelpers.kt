@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.google.wear.jetfit.browse
+package com.google.wear.jetfit.data.model
 
 import com.google.wear.jetfit.data.room.CompletedActivity
 import com.google.wear.jetfit.proto.Api.CurrentActivity
+import java.time.Instant
 
-data class BrowseScreenState(
-    val current: CurrentActivity? = null,
-    val activities: List<CompletedActivity> = listOf()
-)
+public fun CurrentActivity.toCompletedActivity(): CompletedActivity =
+    CompletedActivity(this.activityId, this.title, this.distance, completed = Instant.now())

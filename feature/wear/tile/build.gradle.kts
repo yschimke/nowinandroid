@@ -33,10 +33,10 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.compose)
+    implementation(projects.common.compose)
     implementation(projects.data.activities)
     implementation(projects.usecase.reports)
-    implementation(projects.core.charts)
+    implementation(projects.common.charts)
 
     kapt(libs.androidx.hilt.hilt.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)

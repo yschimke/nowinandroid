@@ -33,9 +33,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.compose)
+    implementation(projects.common.compose)
     implementation(projects.data.activities)
-    implementation(projects.core.navigation)
+    implementation(projects.common.navigation)
     implementation(projects.usecase.reports)
 
     kapt(libs.androidx.hilt.hilt.compiler)

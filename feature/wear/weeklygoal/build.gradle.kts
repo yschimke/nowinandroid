@@ -37,10 +37,10 @@ dependencies {
     kapt(libs.androidx.hilt.hilt.compiler)
     kapt(libs.com.google.dagger.hilt.compiler)
 
-    implementation(projects.core.compose)
-    implementation(projects.core.charts)
+    implementation(projects.common.compose)
+    implementation(projects.common.charts)
     implementation(projects.data.activities)
-    implementation(projects.core.navigation)
+    implementation(projects.common.navigation)
     implementation(projects.usecase.reports)
 
     implementation(libs.startup.runtime)

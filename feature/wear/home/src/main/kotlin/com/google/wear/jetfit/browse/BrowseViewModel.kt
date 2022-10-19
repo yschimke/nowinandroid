@@ -19,41 +19,58 @@ package com.google.wear.jetfit.browse
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.wear.jetfit.data.model.toCompletedActivity
 import com.google.wear.jetfit.data.repository.CompletedActivityRepository
+import com.google.wear.jetfit.data.repository.CurrentActivityRepository
 import com.google.wear.jetfit.data.room.CompletedActivity
+import com.google.wear.jetfit.proto.Api
+import com.google.wear.jetfit.proto.Api.CurrentActivity
+import com.google.wear.jetfit.proto.CurrentActivityKt
+import com.google.wear.jetfit.proto.currentActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.Instant
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
     private val completedActivityRepository: CompletedActivityRepository,
+    private val currentActivityRepository: CurrentActivityRepository,
 ) : ViewModel() {
-    fun addActivity() {
+    fun startActivity() {
         viewModelScope.launch {
-            completedActivityRepository.addActivity(
-                CompletedActivity(
-                    System.currentTimeMillis().toString(),
-                    "NEW Activity",
-                    10.0,
-                    Instant.now()
-                )
-            )
+            currentActivityRepository.updateCurrentActivity(currentActivity {
+                activityId = UUID.randomUUID().toString()
+                title = "Run"
+                distance = 1.0
+                active = true
+            })
         }
     }
 
-    val state = completedActivityRepository.getRecentActivities(10)
-        .map {
-            BrowseScreenState(it)
+    fun completeActivity(currentActivity: CurrentActivity) {
+        viewModelScope.launch {
+            completedActivityRepository.addActivity(
+                currentActivity.toCompletedActivity()
+            )
+            currentActivityRepository.deleteCurrentActivity()
+        }
+    }
+
+    val recentActivitiesFlow = completedActivityRepository.getRecentActivities(5)
+    val currentActivityFlow = currentActivityRepository.getCurrentActivity()
+
+    val state = combine(recentActivitiesFlow, currentActivityFlow) { recentActivities, currentActivity ->
+            BrowseScreenState(currentActivity, recentActivities)
         }
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             BrowseScreenState()
         )
-
 }

@@ -16,16 +16,14 @@
 
 package com.google.wear.jetfit.reports
 
+import com.google.wear.jetfit.data.model.toCompletedActivity
 import com.google.wear.jetfit.data.repository.CompletedActivityRepository
 import com.google.wear.jetfit.data.repository.CurrentActivityRepository
 import com.google.wear.jetfit.data.repository.SettingsRepository
-import com.google.wear.jetfit.data.room.CompletedActivity
-import com.google.wear.jetfit.proto.Api
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import java.time.Instant
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -48,6 +46,3 @@ class WeeklyProgressUseCase
         })
     }
 }
-
-private fun Api.CurrentActivity.toCompletedActivity(): CompletedActivity =
-    CompletedActivity(this.activityId, this.title, this.distance, completed = Instant.now())

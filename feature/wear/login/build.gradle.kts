@@ -38,7 +38,7 @@ dependencies {
     kapt(libs.com.google.dagger.hilt.compiler)
 
     implementation(projects.data.activities)
-    implementation(projects.core.auth)
+    implementation(projects.common.auth)
 
     implementation(libs.startup.runtime)
     implementation(libs.androidx.activity.activity.compose)
