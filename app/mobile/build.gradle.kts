@@ -94,8 +94,8 @@ dependencies {
     implementation(projects.data.activities)
     implementation(projects.common.auth)
     implementation(projects.common.navigation)
-    implementation(projects.feature.home)
-    implementation(projects.feature.activity)
+    implementation(projects.feature.mobile.home)
+    implementation(projects.feature.mobile.activity)
 
     implementation(libs.startup.runtime)
     implementation(libs.coil)
