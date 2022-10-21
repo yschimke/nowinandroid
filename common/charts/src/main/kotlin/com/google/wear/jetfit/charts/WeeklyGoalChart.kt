@@ -44,13 +44,13 @@ fun GoalChart(
     state: WeeklyProgressReport
 ) {
     Canvas(modifier = modifier) {
-        goalChart(state, textPaint, barPaint)
+        goalChart(state)
     }
 }
 
 val days = DayOfWeek.values()
 
-fun DrawScope.goalChart(state: WeeklyProgressReport, textPaint: ComposePaint, barPaint: ComposePaint) {
+fun DrawScope.goalChart(state: WeeklyProgressReport) {
     val dailyTotals = state.dailyTotals
     val max = dailyTotals.values.maxOrNull() ?: 10.0
     val borderStyle = Stroke(width = 2f)

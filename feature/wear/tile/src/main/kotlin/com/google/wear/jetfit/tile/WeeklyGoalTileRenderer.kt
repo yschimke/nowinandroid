@@ -98,7 +98,7 @@ class WeeklyGoalTileRenderer(context: Context) :
         addIdToImageMapping(
             DailyActivities,
             canvasToImageResource(Size(160f * density.density, 100f *  density.density), density) {
-                goalChart(resourceState, textPaint, barPaint)
+                goalChart(resourceState)
             })
     }
 
