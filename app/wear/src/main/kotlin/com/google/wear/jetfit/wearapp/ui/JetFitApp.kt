@@ -17,12 +17,9 @@ package com.google.wear.jetfit.wearapp.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -39,10 +36,7 @@ import com.google.wear.jetfit.navigation.Screens
 @Composable
 fun JetFitApp(
     navController: NavHostController,
-    viewModel: AppViewModel = hiltViewModel()
 ) {
-    val appState by viewModel.state.collectAsStateWithLifecycle()
-
     JetFitTheme {
         WearNavScaffold(
             startDestination = Screens.Home.route,
@@ -99,12 +93,6 @@ fun JetFitApp(
                     navController = navController
                 )
             }
-        }
-    }
-
-    LaunchedEffect(appState.account) {
-        viewModel.startLoginFlow {
-            navController.navigate(Screens.Login.route)
         }
     }
 }
