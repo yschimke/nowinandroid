@@ -38,7 +38,7 @@ dependencies {
     kapt(libs.com.google.dagger.hilt.compiler)
 
     implementation(projects.common.compose)
-    implementation(projects.usecase.reports)
+    implementation(projects.domain.reports)
 
     implementation(libs.androidx.wear.compose.compose.foundation)
     implementation(libs.androidx.wear.compose.compose.material)

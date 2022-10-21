@@ -41,7 +41,7 @@ dependencies {
     implementation(projects.common.charts)
     implementation(projects.data.activities)
     implementation(projects.common.navigation)
-    implementation(projects.usecase.reports)
+    implementation(projects.domain.reports)
 
     implementation(libs.startup.runtime)
     implementation(libs.androidx.activity.activity.compose)

@@ -24,7 +24,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Updater @Inject constructor(@ApplicationContext val application: Context) {
+class ComplicationUpdater @Inject constructor(@ApplicationContext val application: Context) {
     fun update() {
         val request = ComplicationDataSourceUpdateRequester.create(
             application, ComponentName(

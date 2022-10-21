@@ -23,9 +23,19 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Updater @Inject constructor(@ApplicationContext val application: Context) {
-    fun update() {
+class TileUpdater @Inject constructor(@ApplicationContext val application: Context) {
+    fun updateRecentActivities() {
         TileService.getUpdater(application)
             .requestUpdate(RecentActivitiesTileProviderService::class.java)
+    }
+
+    fun updateWeeklyGoal() {
+        TileService.getUpdater(application)
+            .requestUpdate(WeeklyGoalTileProviderService::class.java)
+    }
+
+    fun updateAll() {
+        updateRecentActivities()
+        updateWeeklyGoal()
     }
 }
