@@ -22,7 +22,7 @@ import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
 
 val JetFitColorPalette = Colors(
-    primary = Color(0xff0060bfL), // #0060bf
+    primary = Color(0xFF63D7C5L), // #0060bf
     primaryVariant = Color(0xff668888L), // #e4eef8
     onPrimary = Color(0xFFffffffL),
     secondary = Color(0xfffffac0L), // #fffac0

@@ -32,6 +32,7 @@ import com.google.android.horologist.compose.navscaffold.WearNavScaffold
 import com.google.android.horologist.compose.navscaffold.scalingLazyColumnComposable
 import com.google.wear.jetfit.activity.ActivityScreen
 import com.google.wear.jetfit.browse.BrowseScreen
+import com.google.wear.jetfit.compose.theme.JetFitTheme
 import com.google.wear.jetfit.login.LoginScreen
 import com.google.wear.jetfit.navigation.Screens
 
@@ -42,60 +43,62 @@ fun JetFitApp(
 ) {
     val appState by viewModel.state.collectAsStateWithLifecycle()
 
-    WearNavScaffold(
-        startDestination = Screens.Home.route,
-        navController = navController,
-    ) {
-        scalingLazyColumnComposable(
-            route = Screens.Home.route,
-            scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) },
-            deepLinks = listOf(
-                navDeepLink {
-                    uriPattern = "jetfit://jetfit/home"
-                }
-            )
+    JetFitTheme {
+        WearNavScaffold(
+            startDestination = Screens.Home.route,
+            navController = navController,
         ) {
-            BrowseScreen(
-                modifier = Modifier.fillMaxSize(),
-                viewModel = hiltViewModel(),
-                focusRequester = it.viewModel.focusRequester,
-                scrollState = it.scrollableState,
-                navController = navController,
-                onAuth = { navController.navigate(Screens.Login.route) }
-            )
-        }
+            scalingLazyColumnComposable(
+                route = Screens.Home.route,
+                scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) },
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "jetfit://jetfit/home"
+                    }
+                )
+            ) {
+                BrowseScreen(
+                    modifier = Modifier.fillMaxSize(),
+                    viewModel = hiltViewModel(),
+                    focusRequester = it.viewModel.focusRequester,
+                    scrollState = it.scrollableState,
+                    navController = navController,
+                    onAuth = { navController.navigate(Screens.Login.route) }
+                )
+            }
 
-        scalingLazyColumnComposable(
-            route = Screens.Activity.route,
-            scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) },
-            arguments = listOf(
-                navArgument("activityId") {
-                    type = NavType.StringType
-                }
-            ),
-            deepLinks = listOf(
-                navDeepLink {
-                    uriPattern = "jetfit://jetfit/activity/{activityId}"
-                }
-            )
-        ) {
-            ActivityScreen(
-                scrollState = it.scrollableState,
-                focusRequester = it.viewModel.focusRequester
-            )
-        }
+            scalingLazyColumnComposable(
+                route = Screens.Activity.route,
+                scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) },
+                arguments = listOf(
+                    navArgument("activityId") {
+                        type = NavType.StringType
+                    }
+                ),
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "jetfit://jetfit/activity/{activityId}"
+                    }
+                )
+            ) {
+                ActivityScreen(
+                    scrollState = it.scrollableState,
+                    focusRequester = it.viewModel.focusRequester
+                )
+            }
 
-        scalingLazyColumnComposable(
-            route = Screens.Login.route,
-            scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) }
-        ) {
-            LoginScreen(
-                modifier = Modifier.fillMaxSize(),
-                viewModel = hiltViewModel(),
-                focusRequester = it.viewModel.focusRequester,
-                scrollState = it.scrollableState,
-                navController = navController
-            )
+            scalingLazyColumnComposable(
+                route = Screens.Login.route,
+                scrollStateBuilder = { ScalingLazyListState(initialCenterItemIndex = 0) }
+            ) {
+                LoginScreen(
+                    modifier = Modifier.fillMaxSize(),
+                    viewModel = hiltViewModel(),
+                    focusRequester = it.viewModel.focusRequester,
+                    scrollState = it.scrollableState,
+                    navController = navController
+                )
+            }
         }
     }
 

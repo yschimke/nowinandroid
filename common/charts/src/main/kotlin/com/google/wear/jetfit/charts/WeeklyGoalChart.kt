@@ -13,6 +13,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.PaintingStyle
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -31,10 +33,16 @@ val textPaint = ComposePaint().apply {
     color = Color.White
 }
 
-
 val barPaint = ComposePaint().apply {
     color = Color(JetFitColorPalette.primary.toArgb())
-    strokeWidth = 7f
+    strokeWidth = 20f
+    strokeCap = StrokeCap.Round
+}
+
+val avgPaint = ComposePaint().apply {
+    color = Color(JetFitColorPalette.primary.toArgb())
+    strokeWidth = 2f
+    pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
     strokeCap = StrokeCap.Round
 }
 
@@ -57,20 +65,28 @@ fun DrawScope.goalChart(state: WeeklyProgressReport) {
 
     drawIntoCanvas {
         drawRoundRect(Color.White, style = borderStyle, cornerRadius = CornerRadius(5f, 5f))
+        val bottom = size.height * 0.9f - 20f
+
         days.forEachIndexed { i, day ->
             val value = dailyTotals.getOrDefault(day, 0.0)
             val dayLetter = day.toString().take(1)
 
             val x = 50f + (size.width / 9) * i
-            it.drawText(dayLetter, x - 5, size.height * 0.9f, textPaint)
+            it.drawText(dayLetter, x - 5, size.height * 0.95f, textPaint)
             val height = 0.6f * (value.toFloat() / max) * size.height
-            val bottom = size.height * 0.9f - 20f
             it.drawLine(
                 Offset(x, bottom),
                 Offset(x, (bottom - height).toFloat()),
                 barPaint
             )
         }
+
+        val avgY = bottom - 60f
+        it.drawLine(
+            Offset(0f, avgY),
+            Offset(size.width, avgY),
+            avgPaint
+        )
     }
 }
 
