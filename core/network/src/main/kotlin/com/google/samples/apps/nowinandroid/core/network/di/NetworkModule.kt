@@ -21,6 +21,7 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.util.DebugLogger
 import com.google.samples.apps.nowinandroid.core.network.BuildConfig
+import com.google.samples.apps.nowinandroid.core.network.cronet.CronetCallFactoryWrapper
 import com.google.samples.apps.nowinandroid.core.network.fake.FakeAssetManager
 import dagger.Module
 import dagger.Provides
@@ -31,6 +32,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
 import javax.inject.Singleton
 
 @Module
@@ -51,16 +53,20 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder()
-        .addInterceptor(
-            HttpLoggingInterceptor()
-                .apply {
-                    if (BuildConfig.DEBUG) {
-                        setLevel(HttpLoggingInterceptor.Level.BODY)
-                    }
-                },
+    fun okHttpCallFactory(@ApplicationContext context: Context): Call.Factory =
+        CronetCallFactoryWrapper(
+            context,
+            OkHttpClient.Builder()
+                .addInterceptor(
+                    HttpLoggingInterceptor()
+                        .apply {
+                            if (BuildConfig.DEBUG) {
+                                setLevel(BODY)
+                            }
+                        },
+                )
+                .build(),
         )
-        .build()
 
     /**
      * Since we're displaying SVGs in the app, Coil needs an ImageLoader which supports this

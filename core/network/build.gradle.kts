@@ -47,6 +47,10 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.okhttp.logging)
+    implementation("com.google.android.gms:play-services-cronet:18.0.1")
+    implementation("com.google.net.cronet:cronet-okhttp:0.1.0")
+    implementation("androidx.concurrent:concurrent-futures:1.1.0")
+    implementation("androidx.concurrent:concurrent-futures-ktx:1.1.0")
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlin.serialization)
 
