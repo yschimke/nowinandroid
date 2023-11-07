@@ -17,6 +17,7 @@
 package com.google.samples.apps.nowinandroid.core.network.di
 
 import android.content.Context
+import android.util.Log
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.util.DebugLogger
@@ -57,14 +58,30 @@ object NetworkModule {
         CronetCallFactoryWrapper(
             context,
             OkHttpClient.Builder()
-                .addInterceptor(
-                    HttpLoggingInterceptor()
-                        .apply {
-                            if (BuildConfig.DEBUG) {
-                                setLevel(BODY)
+                .apply {
+                    if (BuildConfig.DEBUG) {
+                        addInterceptor(
+                            HttpLoggingInterceptor()
+                                .apply {
+                                    setLevel(BODY)
+                                },
+                        )
+                        addInterceptor { chain ->
+                            Log.i(
+                                "Cronet",
+                                "Request ${chain.request().url} ${chain.request().headers}",
+                            )
+
+                            chain.proceed(chain.request()).also { response ->
+                                val protocol = response.protocol
+                                Log.i(
+                                    "Cronet",
+                                    "Protocol $protocol for ${response.request.url.host}",
+                                )
                             }
-                        },
-                )
+                        }
+                    }
+                }
                 .build(),
         )
 

@@ -29,6 +29,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.chromium.net.CronetEngine
 import org.chromium.net.CronetProvider
+import java.net.URL
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class CronetCallFactoryWrapper(context: Context, val originalClient: OkHttpClient) : Call.Factory {
@@ -42,31 +43,60 @@ class CronetCallFactoryWrapper(context: Context, val originalClient: OkHttpClien
         {
             Log.i("Cronet", "CronetProviderInstaller.installProvider complete")
 
-            for (provider in CronetProvider.getAllProviders(context)) {
-                // We're not interested in using the fallback, we're better off sticking with
-                // the default OkHttp client in that case.
-                if (!provider.isEnabled || provider.name == CronetProvider.PROVIDER_NAME_FALLBACK) {
-                    continue
-                }
-                Log.i("Cronet", "No valid Cronet provider")
-                // TODO uncomment once we are sure it's all working
-//                return@transform originalClient
+            val allProviders = CronetProvider.getAllProviders(context)
+            val info = allProviders.map { it.name + if (it.isEnabled) "/enabled" else "/disabled" }
+            Log.i("Cronet", "Checking $info")
+
+            val validProvider = allProviders.firstOrNull { it.isEnabled && it.name != CronetProvider.PROVIDER_NAME_FALLBACK }
+
+            Log.i("Cronet", "Provider: ${validProvider?.name}")
+
+            if (validProvider == null) {
+                Log.i("Cronet", "Using OkHttp")
+
+                originalClient
+            } else {
+                Log.i("Cronet", "Using Cronet")
+
+                val engine = validProvider.createBuilder()
+                    .apply {
+                        enableQuic(true)
+                        enableBrotli(true)
+                        enableHttp2(true)
+
+                        setUserAgent("Cronet OkHttp Transport Sample")
+
+                        setStoragePath(
+                            context.cacheDir.resolve("okhttpCronetProvider").apply {
+                                mkdirs()
+                            }.absolutePath
+                        )
+                        enableHttpCache(CronetEngine.Builder.HTTP_CACHE_DISK, 10_000_000)
+
+                        addQuicHint("firebasestorage.googleapis.com", 443, 443)
+                        addQuicHint(".googleapis.com", 443, 443)
+                        addQuicHint(".google.com", 443, 443)
+                        addQuicHint("www.google.com", 443, 443)
+                        addQuicHint("storage.googleapis.com", 443, 443)
+                        addQuicHint("www.googleapis.com", 443, 443)
+                        addQuicHint(".googleusercontent.com", 443, 443)
+                        addQuicHint(".ytimg.com", 443, 443)
+                    }
+                    .build()
+
+                // enable for Firebase
+                URL.setURLStreamHandlerFactory(engine.createURLStreamHandlerFactory())
+
+                val cronetInterceptor = CronetInterceptor
+                    .newBuilder(engine)
+                    .build()
+
+                Log.i("Cronet", "Using Cronet")
+
+                originalClient.newBuilder()
+                    .addInterceptor(cronetInterceptor)
+                    .build()
             }
-
-            val engine = CronetEngine.Builder(context)
-                .enableQuic(true)
-                .setUserAgent("Cronet OkHttp Transport Sample")
-                .build()
-
-            val cronetInterceptor = CronetInterceptor
-                .newBuilder(engine)
-                .build()
-
-            Log.i("Cronet", "Using Cronet")
-
-            originalClient.newBuilder()
-                .addInterceptor(cronetInterceptor)
-                .build()
         },
         Dispatchers.Default.asExecutor(),
     )
